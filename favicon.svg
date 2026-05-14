@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#0a0a0a"/>
+  <!-- mountain silhouette: Batur peak -->
+  <path d="M4 52 L20 28 L26 36 L36 18 L50 38 L60 52 Z" fill="#fafaf9"/>
+  <!-- secondary ridge -->
+  <path d="M4 52 L14 40 L22 50 L30 42 L40 50 L60 52 Z" fill="#78716c" opacity="0.7"/>
+  <!-- peak flag / cutoff marker -->
+  <circle cx="36" cy="18" r="3.5" fill="#e11d48"/>
+  <!-- 60 -->
+  <text x="32" y="62" font-family="-apple-system, system-ui, sans-serif" font-size="9" font-weight="800" fill="#fafaf9" text-anchor="middle" letter-spacing="0.5">60K</text>
+</svg>

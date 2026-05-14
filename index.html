@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTR Ultra 60K — Race Prep</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#0a0a0a">
+
+<!-- Tailwind via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-gpx@1.7.0/gpx.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: { 500: "#e11d48", 600: "#be123c", 900: "#4c0519" },
+          ink:   { 900: "#0a0a0a", 800: "#1c1917", 700: "#292524" },
+          paper: "#fafaf9",
+        }
+      }
+    }
+  };
+</script>
+
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif; }
+  #map { height: 600px; border-radius: 0.75rem; }
+  .elevation-wrap { position: relative; height: 320px; }
+  .tab-btn[data-active="true"] { background: #1c1917; color: white; }
+  .pulse-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,.7);
+    animation: pulse 1.6s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,.7); }
+    70% { box-shadow: 0 0 0 12px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  }
+  .aid-marker {
+    background: #e11d48; color: white; border-radius: 50%;
+    width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 11px; border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,.3);
+  }
+  .aid-marker.soft { background: #2563eb; }
+  .fuel-marker {
+    background: #f59e0b; color: white; border-radius: 50%;
+    width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 9px; border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,.25);
+  }
+  .check-row[data-done="true"] .check-label { text-decoration: line-through; opacity: 0.5; }
+  /* Mobile-first horizontal-scrolling tab nav */
+  .tab-nav { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-nav-wrap { position: relative; }
+  /* Right + left scroll indicators (chevrons over a white fade). */
+  .tab-nav-wrap::before,
+  .tab-nav-wrap::after {
+    content: ""; position: absolute; top: 0; bottom: 8px;
+    width: 36px; pointer-events: none; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+    color: #44403c; font-size: 22px; font-weight: 700; line-height: 1;
+    transition: opacity 0.18s ease;
+  }
+  .tab-nav-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, white 30%, rgba(255,255,255,0));
+    content: "‹";
+    justify-content: flex-start; padding-left: 6px;
+    opacity: 0;
+  }
+  .tab-nav-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, white 30%, rgba(255,255,255,0));
+    content: "›";
+    justify-content: flex-end; padding-right: 6px;
+    opacity: 1;
+  }
+  .tab-nav-wrap.scrolled-start::before { opacity: 1; }
+  .tab-nav-wrap.scrolled-end::after { opacity: 0; }
+  @media (min-width: 768px) {
+    .tab-nav-wrap::before,
+    .tab-nav-wrap::after { display: none; }
+  }
+</style>
+</head>
+<body class="bg-paper text-ink-900 min-h-screen">
+
+<header class="border-b border-stone-200 bg-white sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold tracking-tight">BTR Ultra 60K · Race Prep</h1>
+      <p class="text-xs text-stone-500">Batur, Bali · 61.5 km · 04:00 gun · 23:00 cutoff</p>
+    </div>
+    <div class="flex items-center gap-3 text-xs">
+      <div class="pulse-dot"></div>
+      <span class="text-stone-600" id="liveClock">--:--:--</span>
+    </div>
+  </div>
+  <div class="tab-nav-wrap">
+    <nav class="tab-nav max-w-7xl mx-auto pb-2 flex gap-1 px-4">
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="overview" data-active="true">Overview</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="map">Map</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="elevation">Elevation</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="splits">Splits / Z2</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="recon">Recon: AS3→AS4</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="pace">Pace</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="fueling">Fueling</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="watch">FR970 Setup</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="gear">Gear</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="timeline">Race Day</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="course">Course Intel</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="rules">Rules &amp; Warnings</button>
+    </nav>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-6 py-8">
+
+  <!-- OVERVIEW -->
+  <section data-panel="overview" class="space-y-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white border border-stone-200 rounded-xl p-4">
+        <div class="text-xs text-stone-500 uppercase tracking-wide">Distance</div>
+        <div class="text-2xl font-bold">61.5 km</div>
+      </div>
+      <div class="bg-white border border-stone-200 rounded-xl p-4">
+        <div class="text-xs text-stone-500 uppercase tracking-wide">Elevation gain</div>
+        <div class="text-2xl font-bold" id="overviewGain">— m</div>
+      </div>
+      <div class="bg-white border border-stone-200 rounded-xl p-4">
+        <div class="text-xs text-stone-500 uppercase tracking-wide">Cutoff total</div>
+        <div class="text-2xl font-bold">19 h</div>
+      </div>
+      <div class="bg-brand-500 text-white rounded-xl p-4">
+        <div class="text-xs uppercase tracking-wide opacity-80">AS4 Cutoff</div>
+        <div class="text-2xl font-bold">15:00</div>
+        <div class="text-xs opacity-80">km 34.7 · 11h after gun</div>
+      </div>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <div class="flex items-baseline justify-between mb-4 gap-3 flex-wrap">
+        <h2 class="text-lg font-bold">Pace plan v4 — two-baseline model + fatigue ramp</h2>
+        <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">hike + run @HR ≤145 · fatigue 1.18×</span>
+      </div>
+      <div id="overviewPaceTable"></div>
+      <p class="mt-4 text-sm text-stone-600">
+        Two baselines power v4: <b>hike pace</b> on steep terrain (|grade| &gt; 8% — from recon AS3→AS4) and
+        <b>run pace</b> on runnable terrain (≤8% — from your flat 30k in heat).
+        Linear fatigue ramp 1.00× at km 0 → 1.18× at km 60.
+        Cushions: AS3 cutoff <b>+1h 52m</b>, AS4 cutoff <b>+1h 12m</b>, Finish <b>+2h 03m</b>.
+      </p>
+    </div>
+
+    <a href="#splits" data-goto-tab="splits"
+       class="block bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl p-5 transition group">
+      <div class="flex items-center justify-between gap-4">
+        <div class="min-w-0">
+          <div class="text-xs font-semibold uppercase tracking-wide opacity-80">Want more detail?</div>
+          <div class="text-lg font-bold mt-0.5">Per-km splits + Z2 model →</div>
+          <div class="text-xs opacity-90 mt-1">61 rows: grade, +elev, RUN/HIKE model, suggested pace, cushion vs cutoff.</div>
+        </div>
+        <div class="text-3xl shrink-0 opacity-70 group-hover:opacity-100 transition">→</div>
+      </div>
+    </a>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="text-lg font-bold mb-4">Per-leg strategy</h2>
+      <div id="legStrategy" class="space-y-3"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-5">
+        <h3 class="font-bold text-amber-900 mb-2">Top-of-mind</h3>
+        <ul class="text-sm space-y-1.5 text-amber-900 list-disc list-inside">
+          <li><b>Run the runnable bits.</b> AS1→AS2 at 10:30/km — that's your flat-30k Z2 pace with race-day buffer. Don't hike sections you'd run training.</li>
+          <li><b>Power-hike the steep bits.</b> AS3→AS4 at 27:00/km is recon-validated; chasing VP here = quad blowout by AS5.</li>
+          <li>AS4 cutoff 15:00 — v4 arrives at 13:48 with <b>1h 12m cushion</b>. Comfortable but earn it on AS1→AS3.</li>
+          <li>Heat hits 12:00–15:00 = exactly your AS3→AS4 leg. Drench buff, drink Pocari at every AS.</li>
+          <li>Caffeine starts at AS3 (Coca Cola). Sari Roti every 30 min throughout.</li>
+        </ul>
+      </div>
+      <div class="bg-sky-50 border border-sky-200 rounded-xl p-5">
+        <h3 class="font-bold text-sky-900 mb-2">Files in this folder</h3>
+        <ul class="text-sm space-y-1.5 text-sky-900">
+          <li><code class="text-xs bg-white px-1.5 py-0.5 rounded">btr-ultra-60k-full.gpx</code> — course + aid stations + fueling waypoints. <b>Upload this to the watch.</b></li>
+          <li><code class="text-xs bg-white px-1.5 py-0.5 rounded">btr-ultra-60k.gpx</code> — course + aid stations only.</li>
+          <li><code class="text-xs bg-white px-1.5 py-0.5 rounded">btr-ultra-60k-original.gpx</code> — untouched from Trace de Trail.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section data-panel="map" class="space-y-4 hidden">
+    <div class="flex items-center gap-4 flex-wrap text-sm">
+      <label class="flex items-center gap-2"><input type="checkbox" id="toggleFuel" checked> Show fueling points</label>
+      <label class="flex items-center gap-2"><input type="checkbox" id="toggleAid" checked> Show aid stations</label>
+      <div class="ml-auto flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-brand-500"></span> Hard cutoff</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sky-600"></span> Aid station</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500"></span> Fueling</span>
+      </div>
+    </div>
+    <div id="map"></div>
+    <div id="waypointDetail" class="bg-white border border-stone-200 rounded-xl p-4 text-sm text-stone-600">Click a marker for details.</div>
+  </section>
+
+  <!-- ELEVATION -->
+  <section data-panel="elevation" class="space-y-4 hidden">
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-1">Elevation profile</h2>
+      <p class="text-xs text-stone-500 mb-4">Aid stations marked in red. Fueling points in amber.</p>
+      <div class="elevation-wrap"><canvas id="elevation"></canvas></div>
+    </div>
+  </section>
+
+  <!-- SPLITS / Z2 -->
+  <section data-panel="splits" class="space-y-6 hidden">
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-1">Per-km splits — Z2 model vs v4 plan vs cutoff</h2>
+      <p class="text-xs text-stone-500 mb-4">
+        Two baselines feed the model (see <code class="bg-stone-100 px-1 rounded">analyze_recon.py</code>):
+        the <b>hike-recon</b> for steep terrain (|grade| &gt; 8%) and the <b>flat 30k run</b> for runnable terrain.
+        A linear fatigue ramp (1.00× at km 0 → 1.18× at km 60) is applied per km. Re-run the script after
+        changing either GPX or tuning <code class="bg-stone-100 px-1 rounded">FATIGUE_END_FACTOR</code>.
+      </p>
+      <div id="splitsStatus" class="text-sm text-stone-500">Loading recon-analysis.json…</div>
+    </div>
+
+    <div id="splitsBody" class="space-y-6 hidden">
+      <!-- HR cap selector + totals -->
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <div class="flex items-baseline justify-between mb-3 gap-3 flex-wrap">
+          <h3 class="font-bold">Z2 finish projection by HR cap</h3>
+          <div class="text-xs text-stone-500">Pick the HR cap for the highlighted "Z2 pace" column in the splits table below.</div>
+        </div>
+        <div id="z2Totals" class="grid grid-cols-3 gap-3"></div>
+        <div class="mt-3 text-xs text-stone-600" id="z2Caveats"></div>
+      </div>
+
+      <!-- Per-leg Z2 projection -->
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <h3 class="font-bold mb-3">Per-leg Z2 projection (selected HR cap)</h3>
+        <div id="z2LegTable" class="overflow-x-auto"></div>
+      </div>
+
+      <!-- The big splits table -->
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <h3 class="font-bold mb-1">Per-km splits table</h3>
+        <p class="text-xs text-stone-500 mb-3">
+          Color legend on the v3-vs-Z2 column: 🟢 v3 has headroom · 🟡 v3 at Z2 sustainable · 🔴 v3 above Z2 (bonk risk).
+          Cushion column: 🟢 ≥30 min · 🟡 ≥10 min · 🔴 less than 10 min.
+        </p>
+        <div id="splitsTableWrap" class="overflow-x-auto"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECON: AS3 → AS4 -->
+  <section data-panel="recon" class="space-y-6 hidden">
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-1">Recon: Gunung Abang → Desa Terunyan</h2>
+      <p class="text-xs text-stone-500 mb-4">
+        Actual recorded activity (<code class="bg-stone-100 px-1.5 py-0.5 rounded">recon-abang-terunyan.gpx</code>) vs the planned AS3→AS4 leg.
+        On race day you'll arrive at AS3 ~27 km deep — apply a fatigue multiplier to model how much slower this leg will go in race.
+      </p>
+      <div id="reconStatus" class="text-sm text-stone-500">Loading recon GPX…</div>
+    </div>
+
+    <div id="reconBody" class="space-y-6 hidden">
+      <!-- Headline comparison -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white border border-stone-200 rounded-xl p-4">
+          <div class="text-xs text-stone-500 uppercase tracking-wide">Recon (elapsed)</div>
+          <div class="text-2xl font-bold" id="reconElapsedTime">—</div>
+          <div class="text-xs text-stone-500" id="reconElapsedPace">—</div>
+        </div>
+        <div class="bg-white border border-stone-200 rounded-xl p-4">
+          <div class="text-xs text-stone-500 uppercase tracking-wide">Recon (moving only)</div>
+          <div class="text-2xl font-bold" id="reconMovingTime">—</div>
+          <div class="text-xs text-stone-500" id="reconMovingPace">—</div>
+        </div>
+        <div class="bg-white border border-stone-200 rounded-xl p-4">
+          <div class="text-xs text-stone-500 uppercase tracking-wide">Plan (AS3→AS4)</div>
+          <div class="text-2xl font-bold" id="reconPlanTime">—</div>
+          <div class="text-xs text-stone-500" id="reconPlanPace">—</div>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+          <div class="text-xs text-amber-700 uppercase tracking-wide">Race-day projection</div>
+          <div class="text-2xl font-bold text-amber-900" id="reconAdjTime">—</div>
+          <div class="text-xs text-amber-700" id="reconAdjPace">—</div>
+        </div>
+      </div>
+
+      <!-- Verdict (full-width) -->
+      <div id="reconVerdictCard" class="rounded-xl p-5 border">
+        <div class="text-xs uppercase tracking-wide opacity-80" id="reconVerdictLabel">Verdict</div>
+        <div class="text-xl font-bold mt-1" id="reconVerdict">—</div>
+        <div class="text-sm opacity-90 mt-2" id="reconVerdictDetail"></div>
+      </div>
+
+      <!-- Model controls -->
+      <div class="bg-white border border-stone-200 rounded-xl p-6 space-y-5">
+        <div>
+          <div class="flex items-baseline justify-between mb-2">
+            <h3 class="font-bold">Fatigue multiplier</h3>
+            <div class="text-sm font-mono"><span id="fatigueValDisplay">1.15</span>× the recon pace</div>
+          </div>
+          <p class="text-xs text-stone-500 mb-3">
+            Recon was probably fresh + cool + scouting (lots of stops). Race day you hit this leg 27 km deep
+            into a 60 km ultra in heat. Typical mid-race slowdown vs fresh effort at the same RPE: 10–25 % slower.
+            Default 1.15× (15 % slower).
+          </p>
+          <input id="fatigueSlider" type="range" min="1.00" max="1.40" step="0.01" value="1.15" class="w-full">
+          <div class="flex justify-between text-xs text-stone-500 mt-1 font-mono">
+            <span>1.00× (fresh)</span>
+            <span>1.15× (typical)</span>
+            <span>1.40× (worst-case)</span>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 pt-2 border-t border-stone-100">
+          <div>
+            <div class="font-semibold text-sm mb-2">Baseline pace</div>
+            <label class="flex items-start gap-2 text-sm mb-1.5">
+              <input type="radio" name="reconBaseline" value="moving" checked class="mt-1">
+              <span><b>Moving only</b> <span class="text-stone-500">— race day you don't stop except at aid stations. Recommended.</span></span>
+            </label>
+            <label class="flex items-start gap-2 text-sm">
+              <input type="radio" name="reconBaseline" value="elapsed" class="mt-1">
+              <span><b>Elapsed (incl. stops)</b> <span class="text-stone-500">— worst-case if you bonk and stop a lot.</span></span>
+            </label>
+          </div>
+          <div>
+            <div class="font-semibold text-sm mb-2">Distance basis</div>
+            <label class="flex items-start gap-2 text-sm mb-1.5">
+              <input type="radio" name="reconDistance" value="plan" checked class="mt-1">
+              <span><b>Plan distance (<span id="planKmLabel">7.7</span> km)</b> <span class="text-stone-500">— race-day course length. Recommended.</span></span>
+            </label>
+            <label class="flex items-start gap-2 text-sm">
+              <input type="radio" name="reconDistance" value="recon" class="mt-1">
+              <span><b>Recon distance (<span id="reconKmLabel">9.6</span> km)</b> <span class="text-stone-500">— what you actually covered (likely off-course).</span></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats grid -->
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-white border border-stone-200 rounded-xl p-6">
+          <h3 class="font-bold mb-3">Recon activity stats</h3>
+          <dl id="reconStatsList" class="space-y-2 text-sm"></dl>
+        </div>
+        <div class="bg-white border border-stone-200 rounded-xl p-6">
+          <h3 class="font-bold mb-3">Race-day projection</h3>
+          <dl id="reconProjList" class="space-y-2 text-sm"></dl>
+        </div>
+      </div>
+
+      <!-- Pace + elevation chart -->
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <h3 class="font-bold mb-1">Pace and elevation by km</h3>
+        <p class="text-xs text-stone-500 mb-4">Per-km pace from recon (left axis) vs elevation profile (right axis, grey).</p>
+        <div class="elevation-wrap"><canvas id="reconChart"></canvas></div>
+      </div>
+
+      <!-- Per-km splits -->
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <h3 class="font-bold mb-3">Per-km splits</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="text-xs text-stone-500 uppercase">
+              <th class="py-1.5 px-2 text-left">KM</th>
+              <th class="py-1.5 px-2 text-right">Split</th>
+              <th class="py-1.5 px-2 text-right">Pace</th>
+              <th class="py-1.5 px-2 text-right">Cumul.</th>
+              <th class="py-1.5 px-2 text-right">+Elev</th>
+              <th class="py-1.5 px-2 text-right">-Elev</th>
+              <th class="py-1.5 px-2 text-right">Race-day proj.</th>
+            </tr></thead>
+            <tbody id="reconSplits"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACE -->
+  <section data-panel="pace" class="space-y-6 hidden">
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-4">Pace calculator</h2>
+      <div class="grid md:grid-cols-3 gap-4 mb-6">
+        <label class="text-sm">
+          <span class="block text-stone-600 mb-1">Target average pace (min/km)</span>
+          <input id="targetPace" type="number" step="0.5" value="15" min="10" max="25" class="w-full border border-stone-300 rounded-md px-3 py-2">
+        </label>
+        <label class="text-sm">
+          <span class="block text-stone-600 mb-1">Start time (HH:MM)</span>
+          <input id="startTime" type="time" value="04:00" class="w-full border border-stone-300 rounded-md px-3 py-2">
+        </label>
+        <div class="text-sm">
+          <span class="block text-stone-600 mb-1">Total projected time</span>
+          <div id="projectedTotal" class="text-2xl font-bold">—</div>
+        </div>
+      </div>
+      <div id="paceTable"></div>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h3 class="font-bold mb-3">Live on-track check</h3>
+      <p class="text-xs text-stone-500 mb-4">Enter current time + last-passed km — see if you're ahead or behind cutoff cushion.</p>
+      <div class="grid md:grid-cols-3 gap-4 mb-4">
+        <label class="text-sm">
+          <span class="block text-stone-600 mb-1">Current time</span>
+          <input id="liveTime" type="time" class="w-full border border-stone-300 rounded-md px-3 py-2">
+        </label>
+        <label class="text-sm">
+          <span class="block text-stone-600 mb-1">Last km passed</span>
+          <input id="liveKm" type="number" step="0.1" min="0" max="61.5" class="w-full border border-stone-300 rounded-md px-3 py-2">
+        </label>
+      </div>
+      <div id="liveStatus" class="text-sm"></div>
+    </div>
+  </section>
+
+  <!-- FUELING -->
+  <section data-panel="fueling" class="space-y-6 hidden">
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <h2 class="font-bold mb-4">Hourly targets</h2>
+        <dl id="fuelingTargets" class="space-y-2 text-sm"></dl>
+      </div>
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-6">
+        <h3 class="font-bold text-amber-900 mb-2">The simple rule</h3>
+        <p class="text-sm text-amber-900 mb-2"><b>Every 30 min:</b> 1× Sari Roti Cokelat + sip Pocari.</p>
+        <p class="text-sm text-amber-900 mb-2"><b>Every 60 min:</b> 1× salt cap + force a full drink.</p>
+        <p class="text-sm text-amber-900 mb-2"><b>Every AS:</b> drain &amp; refill both flasks with Pocari Sweat.</p>
+        <p class="text-sm text-amber-900 mb-2"><b>AS3 + AS4:</b> sit, eat banana + rice/soto + Coca Cola.</p>
+        <p class="text-sm text-amber-900"><b>Caffeine:</b> Coca Cola at AS3 onwards (AS3, AS4, AS6, AS7). Backup gels only.</p>
+      </div>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-4">Fueling staples (what the plan is built around)</h2>
+      <div id="fuelingStaples" class="space-y-3"></div>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-1">Aid station menus &amp; medic</h2>
+      <p class="text-xs text-stone-500 mb-4">What's available at each stop on the 60K route. Drinks left, food right, medic team at the bottom.</p>
+      <div id="aidMenus" class="space-y-4"></div>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-4">Fueling timeline</h2>
+      <div id="fuelTimeline"></div>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-4">Prep checklist (food shopping)</h2>
+      <ul id="foodChecklist" class="space-y-2 text-sm"></ul>
+    </div>
+  </section>
+
+  <!-- WATCH SETUP -->
+  <section data-panel="watch" class="space-y-6 hidden">
+
+    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+      <h2 class="font-bold text-emerald-900 mb-2">How the v4-encoded GPX works on race day</h2>
+      <p class="text-sm text-emerald-900 mb-3">
+        The watch will buzz at every aid + fueling waypoint with the target time, leg pace, and the
+        one-line action. Race off the buzzes — don't math splits in your head.
+      </p>
+      <ul id="watchGpxUsage" class="space-y-2"></ul>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-1">FR970 — Pre-race setup</h2>
+      <p class="text-xs text-stone-500 mb-4">Click to mark each step done. Persists in localStorage.</p>
+      <ul id="watchPreRace" class="space-y-2"></ul>
+    </div>
+
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-1">FR970 — Race day</h2>
+      <ul id="watchRaceDay" class="space-y-2"></ul>
+    </div>
+
+    <div class="bg-stone-50 border border-stone-200 rounded-xl p-6">
+      <h3 class="font-bold mb-3">Recommended data screens (in this carousel order)</h3>
+      <p class="text-xs text-stone-500 mb-4">Add each one in Trail Run profile → Data Screens. Order matters — Up Ahead is the default landing screen because it's the most useful between aid stations.</p>
+      <div id="watchScreens" class="space-y-3"></div>
+    </div>
+
+  </section>
+
+  <!-- GEAR -->
+  <section data-panel="gear" class="space-y-6 hidden">
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-rose-50 border border-rose-200 rounded-xl p-6">
+        <h2 class="font-bold text-rose-900 mb-3">Mandatory</h2>
+        <ul id="gearMandatory" class="space-y-2 text-sm"></ul>
+      </div>
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <h2 class="font-bold mb-3">Strongly recommended</h2>
+        <ul id="gearRecommended" class="space-y-2 text-sm"></ul>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <h3 class="font-bold mb-3">Drop bag — AS3 (km 27)</h3>
+        <ul id="dropAS3" class="space-y-2 text-sm"></ul>
+      </div>
+      <div class="bg-white border border-stone-200 rounded-xl p-6">
+        <h3 class="font-bold mb-3">Drop bag — AS4 (km 34.7)</h3>
+        <ul id="dropAS4" class="space-y-2 text-sm"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section data-panel="timeline" class="space-y-4 hidden">
+    <div id="timelineList" class="space-y-4"></div>
+  </section>
+
+  <!-- COURSE -->
+  <section data-panel="course" class="space-y-4 hidden">
+    <div id="courseSections" class="space-y-3"></div>
+  </section>
+
+  <!-- RULES -->
+  <section data-panel="rules" class="space-y-6 hidden">
+    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+      <h2 class="font-bold text-emerald-900 mb-2">Mandatory reusable cup or bowl policy</h2>
+      <p class="text-sm text-emerald-900 leading-relaxed">
+        All runners are required to carry a collapsible cup or bowl during the race. To support this initiative,
+        the race organizers <b>will not provide any single-use cups or bowls</b>. This policy is part of our
+        commitment to reducing disposable waste and aligns with the latest gubernatorial regulation aimed at
+        minimizing the use of single-use plastic items, including bottles and food containers. Your cooperation
+        helps promote a cleaner, more sustainable environment for all.
+      </p>
+    </div>
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h2 class="font-bold mb-3">Pacing rules</h2>
+      <ul id="rulesList" class="space-y-3 text-sm"></ul>
+    </div>
+    <div class="bg-rose-50 border border-rose-200 rounded-xl p-6">
+      <h2 class="font-bold text-rose-900 mb-3">Warning signs — stop and fix</h2>
+      <ul id="warningsList" class="space-y-2 text-sm text-rose-900"></ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="text-center text-xs text-stone-500 py-8">
+  Built for Brad. Course data from Trace de Trail. Updates: edit <code>data.js</code> and reload.
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
