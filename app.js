@@ -3,6 +3,60 @@
 const D = window.DATA;
 const RACE_START_HOUR = 4.0;
 
+// ---------------- PWA: service worker + install prompt ----------------
+// Register on load so we never block first paint.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+  });
+}
+
+(function installFlow() {
+  const STORAGE_KEY = "btr.installDismissed";
+  const hint = document.getElementById("installHint");
+  const btn = document.getElementById("installBtn");
+  const body = document.getElementById("installHintBody");
+  const dismiss = document.getElementById("installDismiss");
+  if (!hint) return;
+
+  // Already installed (iOS standalone or display-mode standalone)? Hide.
+  const isStandalone = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+  if (isStandalone) return;
+  if (localStorage.getItem(STORAGE_KEY) === "1") return;
+
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+
+  let deferredPrompt = null;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    body.textContent = "One tap to add it to your home screen — works offline on race morning.";
+    btn.classList.remove("hidden");
+    hint.classList.add("show");
+  });
+
+  btn?.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    hint.classList.remove("show");
+  });
+
+  dismiss?.addEventListener("click", () => {
+    localStorage.setItem(STORAGE_KEY, "1");
+    hint.classList.remove("show");
+  });
+
+  if (isIOS) {
+    // iOS Safari never fires beforeinstallprompt. Show the manual hint.
+    body.innerHTML = "Tap the <b>Share</b> button (square with up-arrow), then <b>Add to Home Screen</b>. Works offline once installed.";
+    hint.classList.add("show");
+  }
+})();
+
 // ---------------- utils ----------------
 const $  = (s) => document.querySelector(s);
 const $$ = (s) => Array.from(document.querySelectorAll(s));

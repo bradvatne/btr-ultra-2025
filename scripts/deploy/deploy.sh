@@ -22,9 +22,17 @@ RSYNC_FILES=(
   app.js
   data.js
   favicon.svg
+  manifest.json
+  service-worker.js
+  apple-touch-icon.png
   btr-ultra-60k-full.gpx
   recon-abang-terunyan.gpx
   recon-analysis.json
+)
+
+# Directories deployed recursively.
+RSYNC_DIRS=(
+  icons
 )
 
 # Verify every file exists locally before pushing.
@@ -35,10 +43,35 @@ for f in "${RSYNC_FILES[@]}"; do
     exit 1
   fi
 done
+for d in "${RSYNC_DIRS[@]}"; do
+  if [ ! -d "$d" ]; then
+    echo "ERROR: missing local directory: $d (run scripts/build_icons.sh first)" >&2
+    exit 1
+  fi
+done
+
+# Push nginx config if it changed (idempotent — install only triggers a reload
+# when the file actually differs).
+echo "==> Syncing nginx vhost..."
+scp -q "$REPO_ROOT/deploy/nginx/btr-ultra.conf" "$SSH_HOST:/tmp/btr-ultra.conf.new"
+ssh "$SSH_HOST" bash -s <<'EOF'
+set -euo pipefail
+if ! cmp -s /tmp/btr-ultra.conf.new /etc/nginx/sites-available/btr-ultra.conf 2>/dev/null; then
+  install -m 644 /tmp/btr-ultra.conf.new /etc/nginx/sites-available/btr-ultra.conf
+  ln -sf /etc/nginx/sites-available/btr-ultra.conf /etc/nginx/sites-enabled/btr-ultra.conf
+  nginx -t
+  systemctl reload nginx
+  echo "    nginx vhost updated + reloaded"
+else
+  echo "    nginx vhost unchanged"
+fi
+rm -f /tmp/btr-ultra.conf.new
+EOF
 
 # rsync each file. (macOS bundled rsync doesn't support --chown, so we fix
 # ownership in the post-deploy ssh below.)
 rsync -avz "${RSYNC_FILES[@]}" "$SSH_HOST:$DEST/"
+rsync -avz "${RSYNC_DIRS[@]}" "$SSH_HOST:$DEST/"
 
 # Normalize ownership + perms after the upload.
 ssh "$SSH_HOST" "chown -R www-data:www-data $DEST && find $DEST -type f -exec chmod 644 {} \;"
@@ -47,7 +80,20 @@ echo
 echo "==> Verifying..."
 ssh "$SSH_HOST" "ls -la $DEST/"
 echo
-HTTP_CODE=$(curl -sk -o /dev/null -w "%{http_code}" "https://103.6.170.102.nip.io:${PORT}/")
-echo "==> Public HTTPS check: HTTP $HTTP_CODE"
+BASE="https://103.6.170.102.nip.io:${PORT}"
+check() {
+  local path=$1
+  local code
+  code=$(curl -sk -o /dev/null -w "%{http_code}" "$BASE$path")
+  printf "    %-32s %s\n" "$path" "HTTP $code"
+}
+echo "==> Public HTTPS checks:"
+check "/"
+check "/manifest.json"
+check "/service-worker.js"
+check "/apple-touch-icon.png"
+check "/icons/icon-192.png"
+check "/icons/icon-512.png"
+check "/icons/icon-maskable-512.png"
 echo
-echo "URL: https://103.6.170.102.nip.io:${PORT}/"
+echo "URL: $BASE/"
