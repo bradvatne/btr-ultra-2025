@@ -11,8 +11,8 @@
   <wpt lat="-8.251530" lon="115.398840">
     <ele>1048</ele>
     <name>Start - Batur Natural Hot Spring</name>
-    <cmt>KM 0.0 | TGT 4:00 AM (+0min) | Walk first 200m to settle vest. Build into pace.</cmt>
-    <desc>KM 0.0 | TGT 4:00 AM (+0min) | Walk first 200m to settle vest. Build into pace.</desc>
+    <cmt>KM 0.0 | TGT 4:00 AM (+0min) | HR cap 145 - non-negotiable. Walk first 200m to settle vest.</cmt>
+    <desc>KM 0.0 | TGT 4:00 AM (+0min) | HR cap 145 - non-negotiable. Walk first 200m to settle vest.</desc>
     <sym>Flag, Blue</sym>
     <type>Aid Station</type>
   </wpt>
@@ -35,8 +35,8 @@
   <wpt lat="-8.259590" lon="115.352180">
     <ele>1092</ele>
     <name>AS1 - Pasir Culali</name>
-    <cmt>KM 10.2 | TGT 6:43 AM (+2h43) | Leg 16:00/km (10.2km / 2h43) | Stop 3min | Top up Pocari. Quick — 3 min.</cmt>
-    <desc>KM 10.2 | TGT 6:43 AM (+2h43) | Leg 16:00/km (10.2km / 2h43) | Stop 3min | Top up Pocari. Quick — 3 min.</desc>
+    <cmt>KM 10.2 | TGT 6:43 AM (+2h43) | Leg 16:00/km (10.2km / 2h43) | Stop 3min | Top up Pocari. Quick - 3 min.</cmt>
+    <desc>KM 10.2 | TGT 6:43 AM (+2h43) | Leg 16:00/km (10.2km / 2h43) | Stop 3min | Top up Pocari. Quick - 3 min.</desc>
     <sym>Flag, Blue</sym>
     <type>Aid Station</type>
   </wpt>
@@ -83,104 +83,104 @@
   <wpt lat="-8.285190" lon="115.414490">
     <ele>1486</ele>
     <name>AS3 - Gunung Abang</name>
-    <cmt>KM 27.0 | TGT 10:08 AM (+6h08) | CUTOFF 12:00 PM (+1h52 cushion) | Leg 13:00/km (9.0km / 1h57) | Stop 12min | Drop bag #1. Coke + rice/soto + banana. Refill BOTH flasks. 12 min.</cmt>
-    <desc>KM 27.0 | TGT 10:08 AM (+6h08) | CUTOFF 12:00 PM (+1h52 cushion) | Leg 13:00/km (9.0km / 1h57) | Stop 12min | Drop bag #1. Coke + rice/soto + banana. Refill BOTH flasks. 12 min.</desc>
+    <cmt>KM 27.0 | TGT 10:08 AM (+6h08) | CUTOFF 12:00 PM (+1h52 cushion) | Leg 13:00/km (9.0km / 1h57) | Stop 18min | KEYSTONE STOP - sit, eat, reset. Drop bag #1. Coke + rice/soto + banana + potato. Refill BOTH. 18 min.</cmt>
+    <desc>KM 27.0 | TGT 10:08 AM (+6h08) | CUTOFF 12:00 PM (+1h52 cushion) | Leg 13:00/km (9.0km / 1h57) | Stop 18min | KEYSTONE STOP - sit, eat, reset. Drop bag #1. Coke + rice/soto + banana + potato. Refill BOTH. 18 min.</desc>
     <sym>Flag, Red</sym>
     <type>Aid Station</type>
   </wpt>
   <wpt lat="-8.273470" lon="115.428830">
     <ele>1858</ele>
     <name>Fuel - CAFFEINE backup</name>
-    <cmt>KM 30.0 | TGT 11:34 AM | Caffeine gel ONLY if Coke at AS3 didn't land. Salt.</cmt>
-    <desc>KM 30.0 | TGT 11:34 AM | Caffeine gel ONLY if Coke at AS3 didn't land. Salt.</desc>
+    <cmt>KM 30.0 | TGT 11:54 AM | Caffeine gel ONLY if Coke at AS3 didn't land. Salt.</cmt>
+    <desc>KM 30.0 | TGT 11:54 AM | Caffeine gel ONLY if Coke at AS3 didn't land. Salt.</desc>
     <sym>Restaurant</sym>
     <type>Fueling</type>
   </wpt>
   <wpt lat="-8.252270" lon="115.428270">
     <ele>1201</ele>
     <name>Fuel - Small bite</name>
-    <cmt>KM 33.0 | TGT 12:59 PM | Half Sari Roti or banana. Brutal descent — stomach-safe only.</cmt>
-    <desc>KM 33.0 | TGT 12:59 PM | Half Sari Roti or banana. Brutal descent — stomach-safe only.</desc>
+    <cmt>KM 33.0 | TGT 1:40 PM | Half Sari Roti or banana. Brutal descent — stomach-safe only.</cmt>
+    <desc>KM 33.0 | TGT 1:40 PM | Half Sari Roti or banana. Brutal descent — stomach-safe only.</desc>
     <sym>Restaurant</sym>
     <type>Fueling</type>
   </wpt>
   <wpt lat="-8.248550" lon="115.428360">
     <ele>1264</ele>
     <name>AS4 - Desa Terunyan</name>
-    <cmt>KM 34.7 | TGT 1:48 PM (+9h48) | CUTOFF 3:00 PM (+1h12 cushion) | Leg 27:00/km (7.7km / 3h28) | Stop 15min | Drop bag #2. Fresh socks. Rice+chicken+watermelon. Coke. Refill BOTH. 15 min.</cmt>
-    <desc>KM 34.7 | TGT 1:48 PM (+9h48) | CUTOFF 3:00 PM (+1h12 cushion) | Leg 27:00/km (7.7km / 3h28) | Stop 15min | Drop bag #2. Fresh socks. Rice+chicken+watermelon. Coke. Refill BOTH. 15 min.</desc>
+    <cmt>KM 34.7 | TGT 2:40 PM (+10h40) | CUTOFF 3:00 PM (+20min cushion) | Leg 33:00/km (7.7km / 4h14) | Stop 18min | Cushion +20m vs cutoff - tight. Drop bag #2. Fresh socks. Rice+chicken. Coke. Refill BOTH. 18 min.</cmt>
+    <desc>KM 34.7 | TGT 2:40 PM (+10h40) | CUTOFF 3:00 PM (+20min cushion) | Leg 33:00/km (7.7km / 4h14) | Stop 18min | Cushion +20m vs cutoff - tight. Drop bag #2. Fresh socks. Rice+chicken. Coke. Refill BOTH. 18 min.</desc>
     <sym>Flag, Red</sym>
     <type>Aid Station</type>
   </wpt>
   <wpt lat="-8.239740" lon="115.436190">
     <ele>1072</ele>
     <name>Fuel - Sari Roti #4</name>
-    <cmt>KM 37.0 | TGT 2:44 PM | 1 piece. AS4 was the big reset — you're stocked.</cmt>
-    <desc>KM 37.0 | TGT 2:44 PM | 1 piece. AS4 was the big reset — you're stocked.</desc>
+    <cmt>KM 37.0 | TGT 3:40 PM | 1 piece. AS4 was the big reset — you're stocked.</cmt>
+    <desc>KM 37.0 | TGT 3:40 PM | 1 piece. AS4 was the big reset — you're stocked.</desc>
     <sym>Restaurant</sym>
     <type>Fueling</type>
   </wpt>
   <wpt lat="-8.234760" lon="115.445850">
     <ele>696</ele>
     <name>AS5 - Pedahan</name>
-    <cmt>KM 39.3 | TGT 3:40 PM (+11h40) | Leg 21:00/km (4.6km / 1h37) | Stop 3min | Quick refill. 3 min.</cmt>
-    <desc>KM 39.3 | TGT 3:40 PM (+11h40) | Leg 21:00/km (4.6km / 1h37) | Stop 3min | Quick refill. 3 min.</desc>
+    <cmt>KM 39.3 | TGT 4:39 PM (+12h39) | Leg 22:00/km (4.6km / 1h41) | Stop 5min | Quads gone - save them. Quick refill + salt. 5 min.</cmt>
+    <desc>KM 39.3 | TGT 4:39 PM (+12h39) | Leg 22:00/km (4.6km / 1h41) | Stop 5min | Quads gone - save them. Quick refill + salt. 5 min.</desc>
     <sym>Flag, Blue</sym>
     <type>Aid Station</type>
   </wpt>
   <wpt lat="-8.234020" lon="115.438830">
     <ele>684</ele>
     <name>Fuel - Salt + Drink</name>
-    <cmt>KM 42.0 | TGT 4:23 PM | 1x salt cap. Drain bottle before AS5.</cmt>
-    <desc>KM 42.0 | TGT 4:23 PM | 1x salt cap. Drain bottle before AS5.</desc>
+    <cmt>KM 42.0 | TGT 5:25 PM | 1x salt cap. Drain bottle before AS5.</cmt>
+    <desc>KM 42.0 | TGT 5:25 PM | 1x salt cap. Drain bottle before AS5.</desc>
     <sym>Restaurant</sym>
     <type>Fueling</type>
   </wpt>
   <wpt lat="-8.225910" lon="115.426650">
     <ele>1239</ele>
     <name>Fuel - Sari Roti #5</name>
-    <cmt>KM 45.0 | TGT 5:10 PM | 1 piece. Caffeine backup gel if energy dipping.</cmt>
-    <desc>KM 45.0 | TGT 5:10 PM | 1 piece. Caffeine backup gel if energy dipping.</desc>
+    <cmt>KM 45.0 | TGT 6:17 PM | 1 piece. Caffeine backup gel if energy dipping.</cmt>
+    <desc>KM 45.0 | TGT 6:17 PM | 1 piece. Caffeine backup gel if energy dipping.</desc>
     <sym>Restaurant</sym>
     <type>Fueling</type>
   </wpt>
   <wpt lat="-8.215900" lon="115.416780">
     <ele>1217</ele>
     <name>AS6 - Alengkong</name>
-    <cmt>KM 47.0 | TGT 5:42 PM (+13h42) | Leg 15:30/km (7.7km / 1h59) | Stop 5min | Coke for caffeine. Real food. Refill. 5 min.</cmt>
-    <desc>KM 47.0 | TGT 5:42 PM (+13h42) | Leg 15:30/km (7.7km / 1h59) | Stop 5min | Coke for caffeine. Real food. Refill. 5 min.</desc>
+    <cmt>KM 47.0 | TGT 6:51 PM (+14h51) | Leg 16:30/km (7.7km / 2h07) | Stop 5min | Coke for caffeine. Real food. Refill. 5 min.</cmt>
+    <desc>KM 47.0 | TGT 6:51 PM (+14h51) | Leg 16:30/km (7.7km / 2h07) | Stop 5min | Coke for caffeine. Real food. Refill. 5 min.</desc>
     <sym>Flag, Blue</sym>
     <type>Aid Station</type>
   </wpt>
   <wpt lat="-8.213450" lon="115.404640">
     <ele>1179</ele>
     <name>Fuel - Sari Roti #6</name>
-    <cmt>KM 51.0 | TGT 6:38 PM | 1 piece + salt. Long final leg.</cmt>
-    <desc>KM 51.0 | TGT 6:38 PM | 1 piece + salt. Long final leg.</desc>
+    <cmt>KM 51.0 | TGT 7:51 PM | 1 piece + salt. Long final leg.</cmt>
+    <desc>KM 51.0 | TGT 7:51 PM | 1 piece + salt. Long final leg.</desc>
     <sym>Restaurant</sym>
     <type>Fueling</type>
   </wpt>
   <wpt lat="-8.231790" lon="115.395400">
     <ele>1141</ele>
     <name>AS7 - Songan Village</name>
-    <cmt>KM 55.6 | TGT 7:43 PM (+15h43) | Leg 13:30/km (8.6km / 1h56) | Stop 3min | Last caffeine. Refill. 3 min — send it.</cmt>
-    <desc>KM 55.6 | TGT 7:43 PM (+15h43) | Leg 13:30/km (8.6km / 1h56) | Stop 3min | Last caffeine. Refill. 3 min — send it.</desc>
+    <cmt>KM 55.6 | TGT 9:01 PM (+17h01) | Leg 14:30/km (8.6km / 2h05) | Stop 3min | Last caffeine. Refill. 3 min - send it.</cmt>
+    <desc>KM 55.6 | TGT 9:01 PM (+17h01) | Leg 14:30/km (8.6km / 2h05) | Stop 3min | Last caffeine. Refill. 3 min - send it.</desc>
     <sym>Flag, Blue</sym>
     <type>Aid Station</type>
   </wpt>
   <wpt lat="-8.242190" lon="115.391260">
     <ele>1171</ele>
     <name>Fuel - Final CAFFEINE</name>
-    <cmt>KM 58.0 | TGT 8:13 PM | Last caffeine gel OR Coke at AS7. Drive home.</cmt>
-    <desc>KM 58.0 | TGT 8:13 PM | Last caffeine gel OR Coke at AS7. Drive home.</desc>
+    <cmt>KM 58.0 | TGT 9:34 PM | Last caffeine gel OR Coke at AS7. Drive home.</cmt>
+    <desc>KM 58.0 | TGT 9:34 PM | Last caffeine gel OR Coke at AS7. Drive home.</desc>
     <sym>Restaurant</sym>
     <type>Fueling</type>
   </wpt>
   <wpt lat="-8.251530" lon="115.398840">
     <ele>1048</ele>
     <name>Finish - Batur Natural Hot Spring</name>
-    <cmt>KM 61.5 | TGT 8:57 PM (+16h57) | CUTOFF 11:00 PM (+2h03 cushion) | Leg 12:00/km (5.9km / 1h11) | Drop bag retrieval. Sit. Smile.</cmt>
-    <desc>KM 61.5 | TGT 8:57 PM (+16h57) | CUTOFF 11:00 PM (+2h03 cushion) | Leg 12:00/km (5.9km / 1h11) | Drop bag retrieval. Sit. Smile.</desc>
+    <cmt>KM 61.5 | TGT 10:21 PM (+18h21) | CUTOFF 11:00 PM (+39min cushion) | Leg 13:00/km (5.9km / 1h17) | Drop bag retrieval. Sit. Smile.</cmt>
+    <desc>KM 61.5 | TGT 10:21 PM (+18h21) | CUTOFF 11:00 PM (+39min cushion) | Leg 13:00/km (5.9km / 1h17) | Drop bag retrieval. Sit. Smile.</desc>
     <sym>Flag, Red</sym>
     <type>Aid Station</type>
   </wpt>

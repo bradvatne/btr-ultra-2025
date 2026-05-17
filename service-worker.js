@@ -1,6 +1,6 @@
 // BTR Ultra service worker — offline-first race-day caching.
 // Bump CACHE_NAME when you redeploy and want every installed client to refetch.
-const CACHE_NAME = "btr-v1";
+const CACHE_NAME = "btr-v2";
 
 const PRECACHE = [
   "/",

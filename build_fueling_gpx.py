@@ -18,25 +18,25 @@ DST = HERE / "btr-ultra-60k-full.gpx"
 RACE_START_HOUR = 4.0
 
 # (code, name, km, cutoff_h, target_h, leg_pace_min_per_km, stop_min, action)
-# Mirrors window.DATA.aid_stations v4 plan in data.js.
+# Mirrors window.DATA.aid_stations v5 plan in data.js (post-DNF revision).
 AID = [
     ("START",  "Start - Batur Natural Hot Spring", 0.0,   None, 0.0,           None,  0,
-     "Walk first 200m to settle vest. Build into pace."),
+     "HR cap 145 - non-negotiable. Walk first 200m to settle vest."),
     ("AS1",    "AS1 - Pasir Culali",               10.2,  None, 2 + 43/60,     16.0,  3,
-     "Top up Pocari. Quick — 3 min."),
+     "Top up Pocari. Quick - 3 min."),
     ("AS2",    "AS2 - Tanjakan Cinta",             18.0,  None, 4 +  8/60,     10.5,  3,
      "Top up Pocari. Sunglasses on. 3 min."),
-    ("AS3",    "AS3 - Gunung Abang",               27.0,  8.0,  6 +  8/60,     13.0, 12,
-     "Drop bag #1. Coke + rice/soto + banana. Refill BOTH flasks. 12 min."),
-    ("AS4",    "AS4 - Desa Terunyan",              34.7, 11.0,  9 + 48/60,     27.0, 15,
-     "Drop bag #2. Fresh socks. Rice+chicken+watermelon. Coke. Refill BOTH. 15 min."),
-    ("AS5",    "AS5 - Pedahan",                    39.3,  None, 11 + 40/60,    21.0,  3,
-     "Quick refill. 3 min."),
-    ("AS6",    "AS6 - Alengkong",                  47.0,  None, 13 + 42/60,    15.5,  5,
+    ("AS3",    "AS3 - Gunung Abang",               27.0,  8.0,  6 +  8/60,     13.0, 18,
+     "KEYSTONE STOP - sit, eat, reset. Drop bag #1. Coke + rice/soto + banana + potato. Refill BOTH. 18 min."),
+    ("AS4",    "AS4 - Desa Terunyan",              34.7, 11.0, 10 + 40/60,     33.0, 18,
+     "Cushion +20m vs cutoff - tight. Drop bag #2. Fresh socks. Rice+chicken. Coke. Refill BOTH. 18 min."),
+    ("AS5",    "AS5 - Pedahan",                    39.3,  None, 12 + 39/60,    22.0,  5,
+     "Quads gone - save them. Quick refill + salt. 5 min."),
+    ("AS6",    "AS6 - Alengkong",                  47.0,  None, 14 + 51/60,    16.5,  5,
      "Coke for caffeine. Real food. Refill. 5 min."),
-    ("AS7",    "AS7 - Songan Village",             55.6,  None, 15 + 43/60,    13.5,  3,
-     "Last caffeine. Refill. 3 min — send it."),
-    ("FINISH", "Finish - Batur Natural Hot Spring",61.5, 19.0, 16 + 57/60,     12.0,  0,
+    ("AS7",    "AS7 - Songan Village",             55.6,  None, 17 +  1/60,    14.5,  3,
+     "Last caffeine. Refill. 3 min - send it."),
+    ("FINISH", "Finish - Batur Natural Hot Spring",61.5, 19.0, 18 + 21/60,     13.0,  0,
      "Drop bag retrieval. Sit. Smile."),
 ]
 
@@ -181,4 +181,4 @@ out = text.replace("</metadata>", "</metadata>\n" + block.rstrip() + "\n", 1)
 DST.write_text(out)
 n_aid = sum(1 for w in wpts if w['type'] == 'Aid Station')
 n_fuel = sum(1 for w in wpts if w['type'] == 'Fueling')
-print(f"Wrote {DST.name}: {len(wpts)} waypoints ({n_aid} aid, {n_fuel} fueling) — v4 plan")
+print(f"Wrote {DST.name}: {len(wpts)} waypoints ({n_aid} aid, {n_fuel} fueling) — v5 plan")
