@@ -765,6 +765,185 @@ $("#rulesList").innerHTML = D.pacing_rules.map(r => `
 
 $("#warningsList").innerHTML = D.warning_signs.map(w => `<li class="flex gap-2"><span>⚠</span><span>${w}</span></li>`).join("");
 
+// ---------------- retrospective ----------------
+(function renderRetro() {
+  const R = D.retrospective;
+  if (!R) return;
+
+  $("#retroStatus").textContent = R.status;
+  $("#retroDate").textContent = `Race date: ${R.race_date}`;
+  $("#retroHeadline").textContent = R.headline;
+
+  $("#retroStats").innerHTML = R.stats.map(s => `
+    <div class="bg-white border border-stone-200 rounded-xl p-4">
+      <div class="text-[10px] text-stone-500 uppercase tracking-wide">${s.label}</div>
+      <div class="text-xl md:text-2xl font-bold mt-1">${s.value}</div>
+      <div class="text-xs text-stone-500 mt-0.5">${s.sub}</div>
+    </div>
+  `).join("");
+
+  // Aid station arrivals table
+  $("#retroAidTbody").innerHTML = R.aid_stations.map(a => {
+    const isMiss = a.status.startsWith("MISSED");
+    const deltaClass = a.delta_min > 30 ? "text-rose-600 font-semibold" : a.delta_min > 10 ? "text-amber-600" : "text-stone-600";
+    const statusClass = isMiss ? "text-rose-700 font-bold" : a.status.startsWith("ahead") ? "text-emerald-700" : "text-stone-600";
+    return `
+      <tr class="border-b border-stone-100">
+        <td class="py-2 px-2 font-semibold">${a.code}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs">${a.km}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs">${a.plan_clock}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs">${a.actual_clock}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs ${deltaClass}">+${a.delta_min}m</td>
+        <td class="py-2 px-2 text-right font-mono text-xs">${a.cutoff_clock}</td>
+        <td class="py-2 px-2 text-right text-xs ${statusClass}">${a.status}</td>
+      </tr>
+    `;
+  }).join("");
+
+  // Per-leg breakdown table
+  $("#retroLegsTbody").innerHTML = R.legs.map(l => {
+    const dtMin = l.delta_time_min;
+    const cls = dtMin >= 30 ? "text-rose-600 font-bold" : dtMin >= 10 ? "text-amber-600" : "text-emerald-700";
+    return `
+      <tr class="border-b border-stone-100">
+        <td class="py-2 px-2 font-semibold">${l.from}→${l.to}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs">${l.plan_pace}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs">${l.actual_pace}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs ${cls}">${l.delta_pace}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs">${l.plan_time}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs">${l.actual_time}</td>
+        <td class="py-2 px-2 text-right font-mono text-xs ${cls}">+${dtMin}m</td>
+      </tr>
+    `;
+  }).join("");
+
+  $("#retroLegsNotes").innerHTML = R.legs.map(l => `
+    <div><span class="font-semibold">${l.from}→${l.to}:</span> ${l.note}</div>
+  `).join("");
+
+  // What went well / wrong
+  $("#retroWentWell").innerHTML = R.went_well.map(w => `
+    <li><span class="font-semibold">${w.title}.</span> ${w.body}</li>
+  `).join("");
+  $("#retroWentWrong").innerHTML = R.went_wrong.map(w => `
+    <li><span class="font-semibold">${w.title}.</span> ${w.body}</li>
+  `).join("");
+
+  // Km 29 spotlight
+  $("#retroKm29Stats").innerHTML = R.km29_collapse.stat_lines.map(line => `<li>· ${line}</li>`).join("");
+  $("#retroKm29Reading").textContent = R.km29_collapse.reading;
+
+  // Cutoff math
+  $("#retroCutoffTbody").innerHTML = R.cutoff_math.map(c => `
+    <tr>
+      <td class="py-2 px-2 text-sm">${c.stage}</td>
+      <td class="py-2 px-2 text-right font-mono text-sm font-semibold">${c.value}</td>
+      <td class="py-2 px-2 text-xs text-stone-500">${c.note}</td>
+    </tr>
+  `).join("");
+
+  // Baked into rec. plan
+  $("#retroBakedIn").innerHTML = R.baked_into_rec_plan.map(b => `
+    <li class="border-l-4 border-emerald-600 pl-3 py-1">
+      <div class="font-semibold">${b.rule}</div>
+      <div class="text-xs text-emerald-800 mt-0.5">${b.why}</div>
+    </li>
+  `).join("");
+
+  $("#retroClosing").textContent = R.closing;
+
+  // HR chart — render lazily when the retrospective tab becomes visible.
+  let hrChartRendered = false;
+  function renderHrChart() {
+    if (hrChartRendered) return;
+    const canvas = document.getElementById("retroHrChart");
+    if (!canvas || typeof Chart === "undefined") return;
+    const ctx = canvas.getContext("2d");
+    const labels = R.hr_per_km.map((_, i) => i + 1);
+    // Background bands for HR zones — drawn via plugin.
+    const zonesPlugin = {
+      id: "hrZones",
+      beforeDraw(chart) {
+        const { ctx, chartArea, scales } = chart;
+        if (!chartArea) return;
+        const y = scales.y;
+        const bands = [
+          { from: 100, to: 145, color: "rgba(34,197,94,0.08)" },   // Z2
+          { from: 145, to: 160, color: "rgba(251,191,36,0.10)" },  // Z3
+          { from: 160, to: 180, color: "rgba(239,68,68,0.12)" },   // Z4+
+        ];
+        ctx.save();
+        bands.forEach(b => {
+          const top = y.getPixelForValue(b.to);
+          const bot = y.getPixelForValue(b.from);
+          ctx.fillStyle = b.color;
+          ctx.fillRect(chartArea.left, top, chartArea.right - chartArea.left, bot - top);
+        });
+        // 145 line
+        const cap = y.getPixelForValue(145);
+        ctx.strokeStyle = "rgba(220,38,38,0.8)";
+        ctx.setLineDash([6, 4]);
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left, cap);
+        ctx.lineTo(chartArea.right, cap);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+      },
+    };
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{
+          label: "HR by km",
+          data: R.hr_per_km,
+          borderColor: "#dc2626",
+          backgroundColor: "rgba(220,38,38,0.15)",
+          fill: false,
+          tension: 0.3,
+          pointRadius: 2.5,
+          pointHoverRadius: 5,
+          borderWidth: 2,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: items => `km ${items[0].label}`,
+              label: ctx => `HR ${ctx.parsed.y} bpm`,
+            },
+          },
+        },
+        scales: {
+          x: {
+            title: { display: true, text: "Kilometer" },
+            grid: { display: false },
+          },
+          y: {
+            title: { display: true, text: "Heart rate (bpm)" },
+            min: 100,
+            max: 180,
+            ticks: { stepSize: 10 },
+          },
+        },
+      },
+      plugins: [zonesPlugin],
+    });
+    hrChartRendered = true;
+  }
+  // Hook tab clicks: render the chart the first time the retrospective tab is shown.
+  document.querySelectorAll('.tab-btn[data-tab="retrospective"]').forEach(b =>
+    b.addEventListener("click", () => setTimeout(renderHrChart, 50))
+  );
+})();
+
 // ---------------- splits / Z2 ----------------
 let analysisData = null;
 let analysisLoaded = false;
@@ -885,11 +1064,11 @@ function renderZ2Legs() {
         <th class="py-1.5 px-2 text-right">−Elev</th>
         <th class="py-1.5 px-2 text-right">Z2 pace</th>
         <th class="py-1.5 px-2 text-right">Z2 time</th>
-        <th class="py-1.5 px-2 text-right">v4 pace</th>
-        <th class="py-1.5 px-2 text-right">v4 time</th>
+        <th class="py-1.5 px-2 text-right">Rec. pace</th>
+        <th class="py-1.5 px-2 text-right">Rec. time</th>
         <th class="py-1.5 px-2 text-right">Cum (Z2)</th>
         <th class="py-1.5 px-2 text-right">Z2 vs cutoff</th>
-        <th class="py-1.5 px-2 text-right">v4 vs cutoff</th>
+        <th class="py-1.5 px-2 text-right">Rec. vs cutoff</th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
@@ -1025,10 +1204,10 @@ function renderSplitsTable() {
         <th class="py-1.5 px-2 text-right">Grade</th>
         <th class="py-1.5 px-2 text-center">Model</th>
         <th class="py-1.5 px-2 text-right">Z2 pace</th>
-        <th class="py-1.5 px-2 text-right">v4 pace</th>
-        <th class="py-1.5 px-2 text-right">v4 − Z2</th>
+        <th class="py-1.5 px-2 text-right">Rec. pace</th>
+        <th class="py-1.5 px-2 text-right">Rec. − Z2</th>
         <th class="py-1.5 px-2 text-right">Z2 cum</th>
-        <th class="py-1.5 px-2 text-right">v4 cum</th>
+        <th class="py-1.5 px-2 text-right">Rec. cum</th>
         <th class="py-1.5 px-2 text-right">Z2 cushion vs next cutoff</th>
       </tr></thead>
       <tbody>${rows.join("")}</tbody>

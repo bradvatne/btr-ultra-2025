@@ -44,7 +44,7 @@ window.DATA = {
       },
       medic: "3 Doctor · 2 Nurse · 1 Ambulance · 1 Hospital Team · 5 Physiotherapy",
       leg_pace_min_per_km: 16.0, stop_min: 3,
-      leg_strategy: "Mt. Batur summit climb (+691m) and descent (−649m) over 10.2 km in the dark. Power-hike up, RUN the descent. Model says 15:49 (HR ≤145 w/ fatigue); v5 keeps 16:00 — same as v4. Climb is grade-limited not HR-limited. Last race actual was 18:06/km (HR ran hot) — v5 fixes that with the 145 alert.",
+      leg_strategy: "Mt. Batur summit climb (+691m) and descent (−649m) over 10.2 km in the dark. Power-hike up, RUN the descent. Model says 15:49 (HR ≤145 w/ fatigue); rec. pace is 16:00 — climb is grade-limited not HR-limited. Last race actual was 18:06/km (HR ran hot) — the 145 alert fixes that.",
     },
     { code: "AS2",   name: "Tanjakan Cinta",           km: 18.0, cutoff_h: null, target_h: 4 + 8/60,        facilities: ["toilets","water","food","first aid"], dropbag: false, spectators: false,
       menu: {
@@ -53,7 +53,7 @@ window.DATA = {
       },
       medic: "1 Doctor · 3 Nurse · 1 Ambulance · 1 Hospital Team · 3 Physiotherapy",
       leg_pace_min_per_km: 10.5, stop_min: 3,
-      leg_strategy: "Rolling 7.8 km, sunrise at km 14. RUN this leg — net flat (+163m / −199m). Run-baseline says 9:53/km @HR ≤145; v5 keeps 10:30 — same as v4. Last race actual was 11:04/km (HR 165, ran hot) — v5 HR cap should deliver the planned 10:30. Sunglasses + hat on at sunrise.",
+      leg_strategy: "Rolling 7.8 km, sunrise at km 14. RUN this leg — net flat (+163m / −199m). Run-baseline says 9:53/km @HR ≤145; rec. pace is 10:30. Last race actual was 11:04/km (HR 165, ran hot) — HR cap discipline should deliver the rec. pace. Sunglasses + hat on at sunrise.",
     },
     { code: "AS3",   name: "Gunung Abang",             km: 27.0, cutoff_h: 8.0,  target_h: 6 + 8/60,        facilities: ["toilets","water","food","first aid","vehicle access"], dropbag: true,  spectators: true,
       menu: {
@@ -61,9 +61,9 @@ window.DATA = {
         food:   ["Cassava Chips","Boiled Potato","Boiled Egg","Instant Noodle","Rice + Chicken Soto","Porridge","Green Beans Soup","Fitbar","Bengbeng Chocolate","Chips","Banana","Watermelon","Dates"],
       },
       medic: "3 Doctor · 2 Nurse · 1 Ambulance · 1 Hospital Team · 2 Physiotherapy",
-      note: "60K cutoff 12:00 (gun + 8h). Drop bag #1. v5: full 18-min stop — DO NOT rush.",
+      note: "60K cutoff 12:00 (gun + 8h). Drop bag #1. Rec. stop: full 18 min — DO NOT rush.",
       leg_pace_min_per_km: 13.0, stop_min: 18,
-      leg_strategy: "Climb to ~1620m (+541m / −141m over 9 km). MIXED terrain — alternates flat 7-8/km bits with steep 18-22/km bits. RUN the runnable, power-hike the steep. HR cap 145 is sacred. v5 stop is 18 min (was 12) — this is the keystone stop. Sit. Force food. Refill BOTH flasks. Coke + rice/soto + banana + boiled potato. Mental reset before the hardest leg of the race. Last year cutting AS3 short contributed to the AS3→AS4 bonk.",
+      leg_strategy: "Climb to ~1620m (+541m / −141m over 9 km). MIXED terrain — alternates flat 7-8/km bits with steep 18-22/km bits. RUN the runnable, power-hike the steep. HR cap 145 is sacred. Rec. stop is 18 min (was 12 in the prior plan) — this is the keystone stop. Sit. Force food. Refill BOTH flasks. Coke + rice/soto + banana + boiled potato. Mental reset before the hardest leg of the race. Last year cutting AS3 short contributed to the AS3→AS4 bonk.",
     },
     { code: "AS4",   name: "Desa Terunyan",            km: 34.7, cutoff_h: 11.0, target_h: 10 + 40/60,      facilities: ["toilets","water","food","first aid","vehicle access"], dropbag: true,  spectators: true,
       menu: {
@@ -71,9 +71,9 @@ window.DATA = {
         food:   ["Cassava Chips","Boiled Potato","Boiled Egg","Instant Noodle","Rice + Chicken Soup","Porridge","Fitbar","Bengbeng Chocolate","Chips","Banana","Watermelon"],
       },
       medic: "2 Doctor · 1 Nurse · 1 Ambulance · 1 Hospital Team · 1 Physiotherapy",
-      note: "60K cutoff 15:00 (gun + 11h). Drop bag #2. v5 cushion is only +20m — tight. FULLY REFILL.",
+      note: "60K cutoff 15:00 (gun + 11h). Drop bag #2. Rec. cushion is only +20m — tight. FULLY REFILL.",
       leg_pace_min_per_km: 33.0, stop_min: 18,
-      leg_strategy: "THE leg. +1033m / −1194m over 7.7 km. Recon @ HR ≤145 fresh = 27:07/km. v4 used 27:00 and got 39:37 actual (race-day reality). v5 budget is 33:00/km — honest race-day pace ASSUMING HR cap held all the way to AS3. Walk every steep descent — quads first. If HR cap was violated pre-AS3, this leg goes 38+ min/km and cutoff is gone. Discipline is the whole race.",
+      leg_strategy: "THE leg. +1033m / −1194m over 7.7 km. Recon @ HR ≤145 fresh = 27:07/km. Prior plan used 27:00 and got 39:37 actual (race-day reality). Rec. budget is 33:00/km — honest race-day pace ASSUMING HR cap held all the way to AS3. Walk every steep descent — quads first. If HR cap was violated pre-AS3, this leg goes 38+ min/km and cutoff is gone. Discipline is the whole race.",
     },
     { code: "AS5",   name: "Pedahan",                  km: 39.3, cutoff_h: null, target_h: 12 + 39/60,      facilities: ["water","food","first aid"], dropbag: false, spectators: false,
       menu: {
@@ -82,7 +82,7 @@ window.DATA = {
       },
       medic: "1 Doctor · 2 Nurse · 1 Hospital Team · 1 Physiotherapy (no ambulance on-site)",
       leg_pace_min_per_km: 22.0, stop_min: 5,
-      leg_strategy: "Technical descent to lake (+21m / −549m over 4.6 km). v5: 22:00/km (was 21:00) — +1 min buffer because quads will be shredded after the AS3→AS4 descent. Save them. AS5 stop bumped to 5 min for proper refill — long climb to AS6 next.",
+      leg_strategy: "Technical descent to lake (+21m / −549m over 4.6 km). Rec. pace 22:00/km (+1 min over prior plan) because quads will be shredded after the AS3→AS4 descent. Save them. AS5 stop bumped to 5 min for proper refill — long climb to AS6 next.",
     },
     { code: "AS6",   name: "Alengkong",                km: 47.0, cutoff_h: null, target_h: 14 + 51/60,      facilities: ["water","food","first aid"], dropbag: false, spectators: false,
       menu: {
@@ -91,7 +91,7 @@ window.DATA = {
       },
       medic: "1 Doctor · 2 Nurse · 1 Hospital Team · 3 Physiotherapy (no ambulance on-site)",
       leg_pace_min_per_km: 16.5, stop_min: 5,
-      leg_strategy: "Major late-race climb: +805m / −213m over 7.7 km. Hottest part of day. v5: 16:30/km (was 15:30) — heat + cumulative fatigue buffer. Coca Cola at AS6 = caffeine top-up for the mental wall (km 45-50).",
+      leg_strategy: "Major late-race climb: +805m / −213m over 7.7 km. Hottest part of day. Rec. pace 16:30/km (+1 min over prior plan) for heat + cumulative fatigue. Coca Cola at AS6 = caffeine top-up for the mental wall (km 45-50).",
     },
     { code: "AS7",   name: "Songan Village",           km: 55.6, cutoff_h: null, target_h: 17 + 1/60,       facilities: ["water","food","first aid"], dropbag: false, spectators: false,
       menu: {
@@ -100,11 +100,11 @@ window.DATA = {
       },
       medic: "1 Doctor · 1 Ambulance · 2 Physiotherapy (no hospital team on-site)",
       leg_pace_min_per_km: 14.5, stop_min: 3,
-      leg_strategy: "Rolling terrain (+288m / −358m). v5: 14:30/km (was 13:30) — small buffer. Caffeine + Sari Roti for the ultra wall (km 45-50). Songan = launchpad.",
+      leg_strategy: "Rolling terrain (+288m / −358m). Rec. pace 14:30/km (+1 min over prior plan). Caffeine + Sari Roti for the ultra wall (km 45-50). Songan = launchpad.",
     },
     { code: "FINISH",name: "Batur Natural Hot Spring", km: 61.5, cutoff_h: 19.0, target_h: 18 + 21/60,      facilities: ["toilets","water","food","first aid","drop bag retrieval"], dropbag: true, spectators: true, menu: [], medic: "",
       leg_pace_min_per_km: 13.0, stop_min: 0,
-      leg_strategy: "5.9 km net downhill (+110m / −210m). v5: 13:00/km (was 12:00) — quads are gone. Lights stay off if you're on time (sunset ~18:15, finish by ~22:21). Last caffeine then send it home. Cushion to 23:00 cutoff = 39 min.",
+      leg_strategy: "5.9 km net downhill (+110m / −210m). Rec. pace 13:00/km — quads are gone. Lights stay off if you're on time (sunset ~18:15, finish by ~22:21). Last caffeine then send it home. Cushion to 23:00 cutoff = 39 min.",
     },
   ],
 
@@ -160,10 +160,10 @@ window.DATA = {
   watch_setup: {
     pre_race: [
       { id: "fw",      task: "Update FR970 firmware via Garmin Connect", detail: "Settings → System → Software Update. Do this >3 days out so any regression has time to surface." },
-      { id: "course",  task: "Send course (btr-ultra-60k-full.gpx) to watch", detail: "Garmin Connect → Training → Courses → Import → Send to Device. Verify it appears in Navigate → Courses on the watch. The file encodes the <b>v5 plan</b> — each aid + fueling point includes target clock time, cutoff cushion, leg pace, and the planned action." },
-      { id: "pacepro", task: "Create PacePro strategy from course", detail: "Connect app → Training & Planning → PacePro Strategies → New → Course: BTR Ultra 60K → Goal time 18:21:00 (matches v5 finish target 22:21) → Slight positive split → Climb sensitivity HIGH. Sync. <i>Note: PacePro will recommend its own split paces; trust the GPX waypoint targets over PacePro when they differ — PacePro doesn't know about AS-specific stops or the AS3→AS4 budget.</i>" },
-      { id: "vp",      task: "Set Virtual Partner pace to 17:55/km", detail: "Trail Run profile → Training → Virtual Partner → On → 17:55/km. This is the v5 race-average pace (61.5 km in 18h21m ≈ 17:54/km). VP is a sanity check at aid stations only — never chase it on climbs." },
-      { id: "hr_alert",task: "Set HARD HR alert at 145 (v5 keystone)", detail: "Trail Run profile → Alerts → Heart Rate → High → 145. <b>This is the most important watch setting in the race.</b> Last year HR ran 155-168 from km 7 and burned the engine. When the watch beeps, walk until it stops. No exceptions for first 30 km. This single alert is the difference between cutoff and DNF." },
+      { id: "course",  task: "Send course (btr-ultra-60k-full.gpx) to watch", detail: "Garmin Connect → Training → Courses → Import → Send to Device. Verify it appears in Navigate → Courses on the watch. The file encodes the <b>rec. plan</b> — each aid + fueling point includes target clock time, cutoff cushion, leg pace, and the planned action." },
+      { id: "pacepro", task: "Create PacePro strategy from course", detail: "Connect app → Training & Planning → PacePro Strategies → New → Course: BTR Ultra 60K → Goal time 18:21:00 (matches rec. finish target 22:21) → Slight positive split → Climb sensitivity HIGH. Sync. <i>Note: PacePro will recommend its own split paces; trust the GPX waypoint targets over PacePro when they differ — PacePro doesn't know about AS-specific stops or the AS3→AS4 budget.</i>" },
+      { id: "vp",      task: "Set Virtual Partner pace to 17:55/km", detail: "Trail Run profile → Training → Virtual Partner → On → 17:55/km. This is the rec. race-average pace (61.5 km in 18h21m ≈ 17:54/km). VP is a sanity check at aid stations only — never chase it on climbs." },
+      { id: "hr_alert",task: "Set HARD HR alert at 145 (rec. plan keystone)", detail: "Trail Run profile → Alerts → Heart Rate → High → 145. <b>This is the most important watch setting in the race.</b> Last year HR ran 155-168 from km 7 and burned the engine. When the watch beeps, walk until it stops. No exceptions for first 30 km. This single alert is the difference between cutoff and DNF." },
       { id: "screens", task: "Add data screens (see Recommended screens below)", detail: "Trail Run profile → Data Screens. Five screens in the order shown in the recommended block: Up Ahead → PacePro → VP → 4-field Run → Map." },
       { id: "alerts",  task: "Set HR alert at 145 bpm (high)", detail: "Trail Run profile → Alerts → Heart Rate → High → 145 bpm. Above LT1 in the first 30 km = glycogen crash. Pace alerts are noisy on this terrain — skip them, trust HR + waypoint targets instead." },
       { id: "courseAlerts", task: "Enable Course Point alerts (CRITICAL)", detail: "Trail Run profile → Alerts → Course Point Alerts → On. Each aid + fueling waypoint will buzz ~200 m before you arrive and pop up the comment field showing target time / leg pace / planned action. <b>This is how you race off the watch.</b>" },
@@ -192,7 +192,7 @@ window.DATA = {
         name: "1. Up Ahead",
         when: "Default screen between aid stations. Live snapshot of the race.",
         fields: "Next 3 course points + distance + target ETA",
-        why: "v5 plan is encoded in the GPX as target clock times. This screen tells you whether you're on / ahead / behind for the next aid station without doing math.",
+        why: "Rec. plan is encoded in the GPX as target clock times. This screen tells you whether you're on / ahead / behind for the next aid station without doing math.",
       },
       {
         name: "2. PacePro",
@@ -220,12 +220,12 @@ window.DATA = {
       },
     ],
 
-    // How the v5-encoded GPX shows up on race day.
+    // How the rec.-plan GPX shows up on race day.
     gpx_usage: [
       { id: "g1", task: "What's in the GPX file", detail: "<code>btr-ultra-60k-full.gpx</code> contains the course track + 22 course points (9 aid stations, 13 fueling reminders). Each point's comment encodes: KM marker · target clock time · cumulative h:mm · cutoff cushion (where applicable) · planned leg pace · planned stop minutes · the one-line action." },
       { id: "g2", task: "What you'll see on the watch when it buzzes", detail: "About 200 m before each course point the FR970 buzzes and pops a banner with the waypoint name + comment. Example at AS3: <code>KM 27.0 | TGT 10:08 AM (+6h08) | CUTOFF 12:00 PM (+1h52 cushion) | Leg 13:00/km (9.0km / 1h57) | Stop 12min | Drop bag #1. Coke + rice/soto + banana. Refill BOTH flasks. 12 min.</code>" },
       { id: "g3", task: "Reading the leg pace mid-leg", detail: "When you're between AS2 and AS3, the most-recent CoursePoint alert tells you the target leg pace for the leg you're ON. Compare against current pace on the 4-field screen. Behind by 0–1 min/km = fine. Behind by 2+ min/km consistently = drop fuel or HR check." },
-      { id: "g4", task: "Reading cutoff cushion at AS3 / AS4", detail: "Cutoff cushion = how much slack you have vs. the official cutoff if you hit your v5 target. AS3 cushion is +1h52m (comfortable). <b>AS4 cushion is only +20m</b> — there is no slack here. If you arrive at AS3 even 30 min late, AS4 cutoff is gone. Run AS3 cushion as your AS4 insurance: bank it, don't spend it." },
+      { id: "g4", task: "Reading cutoff cushion at AS3 / AS4", detail: "Cutoff cushion = how much slack you have vs. the official cutoff if you hit your rec. target. AS3 cushion is +1h52m (comfortable). <b>AS4 cushion is only +20m</b> — there is no slack here. If you arrive at AS3 even 30 min late, AS4 cutoff is gone. Run AS3 cushion as your AS4 insurance: bank it, don't spend it." },
       { id: "g5", task: "If the watch dies", detail: "GPX is also on your phone (Garmin Connect mobile or any GPX viewer like Maps.me / Gaia GPS / Avenza). Race directors require it as backup anyway. The phone GPX has the same waypoint comments." },
     ],
   },
@@ -317,7 +317,7 @@ window.DATA = {
       "First 10km: HR below 145. If you can hold a conversation, pace is right.",
     ]},
     { time: "10:08 target — AS3 Gunung Abang (cutoff 12:00, +1h 52m cushion) — THE KEYSTONE STOP", actions: [
-      "FULL 18 MIN STOP. v5 expanded this from 12 → 18. Do not rush. Last year cutting this short broke the race.",
+      "FULL 18 MIN STOP. Rec. plan expanded this from 12 → 18. Do not rush. Last year cutting this short broke the race.",
       "SIT DOWN. Off your feet.",
       "Drop bag #1: restock salt caps, top up Sari Roti pieces, swap empty caffeine-gel pocket.",
       "Refill BOTH flasks with Pocari Sweat. Drain one before leaving.",
@@ -325,7 +325,7 @@ window.DATA = {
       "Before leaving, deep breath. Repeat: 'AS3→AS4 = 33:00/km. Walk every steep descent. Quads are everything.'",
     ]},
     { time: "14:40 target — AS4 Desa Terunyan (cutoff 15:00, +20m cushion) — TIGHT", actions: [
-      "v5 cushion is only 20 min. If you're on time you EARNED this — celebrate quietly, work efficiently.",
+      "Rec. cushion is only 20 min. If you're on time you EARNED this — celebrate quietly, work efficiently.",
       "If you're inside the cutoff, take the full 18 min stop. 'Fully re-fill logistic here.'",
       "Drop bag #2: fresh socks + shirt. Foot inspection. Tape any hot spots.",
       "Restock 4-6 more Sari Roti Cokelat into vest. Top up salt caps.",
@@ -340,13 +340,13 @@ window.DATA = {
   ],
 
   pacing_rules: [
-    { rule: "HR ≤145 IS THE RACE (v5 rule #1)", why: "Last year HR ran 155-168 from km 7-22 — that's what caused the AS3→AS4 bonk and DNF. Set the FR970 alert at 145. If it beeps, walk until it stops. No exceptions for the first 30 km. This single rule is the difference between cutoff and DNF." },
+    { rule: "HR ≤145 IS THE RACE (rec. plan rule #1)", why: "Last year HR ran 155-168 from km 7-22 — that's what caused the AS3→AS4 bonk and DNF. Set the FR970 alert at 145. If it beeps, walk until it stops. No exceptions for the first 30 km. This single rule is the difference between cutoff and DNF." },
     { rule: "Walk anything >8% grade", why: "Running uphill on steep grades costs 3× the energy for only ~15% more speed. Power hike with poles. Bonus: hiking >8% keeps HR under cap automatically." },
-    { rule: "AS3 is a FULL 18-min stop — sit down", why: "v5 expanded AS3 from 12 → 18 min. Last year you cut AS3 short and entered the AS3→AS4 leg undercooked. Sit. Real food. Coke. Mental reset BEFORE the worst leg of the race. The 6 extra minutes here saves 30+ on the descent." },
+    { rule: "AS3 is a FULL 18-min stop — sit down", why: "Rec. plan expanded AS3 from 12 → 18 min. Last year you cut AS3 short and entered the AS3→AS4 leg undercooked. Sit. Real food. Coke. Mental reset BEFORE the worst leg of the race. The 6 extra minutes here saves 30+ on the descent." },
     { rule: "Don't chase Virtual Partner on climbs", why: "VP is flat-pace. You'll be 'behind' on every climb. Trust the GPX waypoint targets, trust VP cumulatively at aid stations only." },
     { rule: "Eat every 30 min from the start", why: "Once you feel hungry / bonky, you're already 30 min behind. Set a watch alert if needed." },
     { rule: "Drink every 15-20 min", why: "Bali humidity is brutal. Dry mouth = already dehydrated." },
-    { rule: "AS3→AS4 budget is 33:00/km — accept it", why: "Recon @ fresh legs was 27:00. Race day with fatigue is 33:00+ even WITH HR discipline. v4 underestimated this and the math went red. Don't try to make up time here — quad-blow is permanent DNF." },
+    { rule: "AS3→AS4 budget is 33:00/km — accept it", why: "Recon @ fresh legs was 27:00. Race day with fatigue is 33:00+ even WITH HR discipline. Prior plan underestimated this and the math went red. Don't try to make up time here — quad-blow is permanent DNF." },
     { rule: "If something hurts, fix it NOW", why: "A hot spot at km 15 = bloody blister at km 30 = DNF at km 40. Take 2 min, tape it." },
     { rule: "Negative emotions = you're under-fueled", why: "Bonk presents as 'this is stupid, I want to quit'. Eat, drink, walk 5 min, reassess." },
     { rule: "After AS4 = you finish", why: "Past the cutoff window, every step is permission to send it. Mental gear shift." },
@@ -361,4 +361,84 @@ window.DATA = {
     "Dizziness on standing → BP / electrolyte issue, sit, salt, water",
     "Wheezing / chest tightness → altitude or asthma, slow, deep breaths",
   ],
+
+  // Race retrospective — built from analyze_race.py + GPS-jitter-filtered data
+  // of the 2026-05-15 attempt. Don't edit numbers without re-running the script.
+  retrospective: {
+    race_date: "2026-05-15",
+    status: "DNF at AS4",
+    headline: "DNF — missed AS4 cutoff. Cause: HR ran 155-168 from km 7 onwards, burning the engine before the AS3→AS4 descent. The leg that should have taken 3h27m took 4h06m and ate the entire cutoff cushion.",
+    stats: [
+      { label: "Distance covered (to AS4)",     value: "~34 km",   sub: "of 34.7 km planned to AS4" },
+      { label: "Total moving time",             value: "11:36",    sub: "before stopping the watch" },
+      { label: "AS4 arrival vs cutoff",         value: "+45 min",  sub: "15:45 vs 15:00 cutoff (per memory)" },
+      { label: "HR cap (≤145) breaches",        value: "km 7→22",  sub: "sustained Z3/Z4 for ~3 hours" },
+    ],
+
+    // Aid station arrivals — analysis based on GPS proximity (within 100m of the AS waypoint).
+    // Note: actual chip mat at AS4 likely sits deeper inside the village than the waypoint,
+    // so Brad's remembered arrival (~15:45) is the source of truth for the cutoff miss.
+    aid_stations: [
+      { code: "AS1", km: 10.2, plan_clock: "06:43", actual_clock: "06:52", delta_min: 8,  cutoff_clock: "—",     status: "on plan" },
+      { code: "AS2", km: 18.0, plan_clock: "08:08", actual_clock: "08:20", delta_min: 11, cutoff_clock: "—",     status: "on plan" },
+      { code: "AS3", km: 27.0, plan_clock: "10:08", actual_clock: "10:49", delta_min: 40, cutoff_clock: "12:00", status: "ahead of cutoff +1h12m" },
+      { code: "AS4", km: 34.7, plan_clock: "13:48", actual_clock: "~15:45", delta_min: 117, cutoff_clock: "15:00", status: "MISSED +45m" },
+    ],
+
+    // Per-leg breakdown
+    legs: [
+      { from: "START", to: "AS1", plan_pace: "16:00/km", actual_pace: "18:06/km", delta_pace: "+2:06", plan_time: "2h43", actual_time: "2h50", delta_time_min: 8,  note: "Discipline OK. Slow but within plan." },
+      { from: "AS1",   to: "AS2", plan_pace: "10:30/km", actual_pace: "11:04/km", delta_pace: "+0:34", plan_time: "1h21", actual_time: "1h27", delta_time_min: 6,  note: "Best leg of the race — nearly nailed the runnable flat." },
+      { from: "AS2",   to: "AS3", plan_pace: "13:00/km", actual_pace: "15:21/km", delta_pace: "+2:21", plan_time: "1h57", actual_time: "2h29", delta_time_min: 32, note: "Slip began here. HR was already 162-165 sustained — over the cap." },
+      { from: "AS3",   to: "AS4", plan_pace: "27:00/km", actual_pace: "39:37/km", delta_pace: "+12:37", plan_time: "3h27", actual_time: "4h06", delta_time_min: 38, note: "THE leg. Plan vs actual gap = cutoff lost. Km 29 alone was 1h40m." },
+    ],
+
+    // HR per km (filtered moving avg, km 1-34). Used to render the HR-over-distance chart.
+    hr_per_km: [145, 152, 148, 146, 142, 155, 166, 166, 150, 165, 153, 154, 152, 151, 155, 157, 145, 164, 162, 165, 162, 164, 156, 149, 148, 133, 154, 150, 142, 132, 147, 143, 154, 135],
+
+    // Actual per-km pace (min/km) for chart overlay.
+    pace_per_km: [9.92, 13.33, 23.0, 27.83, 39.25, 18.33, 10.25, 7.5, 18.5, 7.58, 12.83, 10.25, 8.25, 11.25, 8.92, 13.75, 14.75, 8.17, 7.25, 6.42, 7.67, 22.75, 22.08, 14.5, 9.33, 37.92, 14.58, 39.83, 100.28, 42.58, 26.33, 19.92, 14.75, 31.17],
+
+    went_well: [
+      { title: "Start discipline",        body: "First 10 km took 2:50 vs the planned 2:43 — only +8 min. Headlamp climb up Mt. Batur was paced reasonably, no early surge." },
+      { title: "AS1→AS2 best leg",        body: "Planned 10:30/km, actual 11:04/km. Effectively nailed the runnable flat between Pasir Culali and Tanjakan Cinta." },
+      { title: "AS3 cushion at arrival",  body: "Reached AS3 with +1h12m cushion vs the 12:00 cutoff. Positioning was textbook — strategy was working at this point." },
+      { title: "Clean navigation",        body: "When GPS jitter is filtered out (1Hz noise inflated raw distance to 68 km), actual ground covered ≈ 34 km to AS4 — essentially on the planned course. No major off-route excursions." },
+    ],
+
+    went_wrong: [
+      { title: "HR cap violated for ~3 hours", body: "Plan was ≤145 for the first 30 km. Actual: km 7-8 at 166, km 18-22 sustained 162-165. That's Z3/Z4 — burning glycogen at a rate the engine can't sustain. Root cause of everything that followed." },
+      { title: "AS3→AS4 catastrophe",     body: "Planned 27:00/km (built off the AS3→AS4 recon). Actual 39:37/km — 47% slower than plan. Ate the entire AS3 cushion plus 38 minutes." },
+      { title: "Km 29 — the collapse",    body: "A single kilometer took 1h40m. HR dropped to 142 (too low for hiking effort) — suggesting frequent stops or sitting. That single km cost ~70 minutes vs planned 27 min for that km. It IS the gap between cutoff and DNF." },
+      { title: "AS3 stop too short",      body: "Plan was 12-min stop. Looking at the data, transition out of AS3 was rushed (km 27→28 in 14:35 / 39:50). Undercooked — should have been a sit-down meal + Coke + mental reset." },
+      { title: "Recon was misleading",    body: "The AS3→AS4 recon was done fresh at km 0 of that outing. Same terrain at race-km-27 with cumulative heat is fundamentally slower. Plan should have had a bigger fatigue buffer (33:00/km, not 27:00)." },
+    ],
+
+    km29_collapse: {
+      stat_lines: [
+        "1 kilometer · 1h40m duration · avg HR 142",
+        "Plan for this km: ~27 min · actual: 100 min",
+        "Cost: ~73 min vs plan — exactly the gap to cutoff",
+      ],
+      reading: "HR ~142 during a 100-minute km means you were not hiking continuously. You were sitting, stopping, or moving very slowly through technical scree. The route off Gunung Abang here is steep volcanic descent — high quad damage potential. The body said no.",
+    },
+
+    cutoff_math: [
+      { stage: "AS3 cushion to 12:00 cutoff",    value: "+1h 12m", note: "comfortable, strategy on track" },
+      { stage: "AS3→AS4 plan",                    value: "3h 27m",  note: "27:00/km × 7.7 km" },
+      { stage: "AS3→AS4 actual",                  value: "4h 06m",  note: "39:37/km × 7.7 km" },
+      { stage: "Time lost on this leg",           value: "−39 min", note: "exceeds the AS3 cushion before stop time" },
+      { stage: "AS4 cushion eaten",               value: "−45 min", note: "arrived after the 15:00 cutoff" },
+    ],
+
+    baked_into_rec_plan: [
+      { rule: "Hard HR alert at 145",       why: "FR970 high-HR alarm at 145. Walk every time it beeps. No exceptions for the first 30 km. Without this, the engine cooks and AS3→AS4 collapses the same way." },
+      { rule: "AS3 stop expanded 12→18 min", why: "The 6 saved minutes from rushing AS3 cost 30+ minutes on the descent. Sit, eat, Coke, reset." },
+      { rule: "AS3→AS4 budget 27→33 min/km", why: "Honest race-day pace. With HR discipline holding, 33:00 is achievable. Without HR discipline, the leg blows up regardless of plan." },
+      { rule: "Post-AS4 +1 min/km buffers",  why: "Quads will be wrecked after the brutal descent. Realistic post-AS4 paces preserve the chance of finishing." },
+      { rule: "New finish target 22:21",     why: "Prior target was 20:57 but built on an optimistic AS3→AS4. New target reflects honest race-day execution with +39m finish cushion." },
+    ],
+
+    closing: "The race was decided between km 7 and km 22 — when HR ran above the cap. Everything after AS3 was just the consequence playing out. The rec. plan doesn't change the course; it changes the discipline. Same plan, executed at HR ≤145, makes the cutoff.",
+  },
 };

@@ -140,6 +140,7 @@
   <div class="tab-nav-wrap">
     <nav class="tab-nav max-w-7xl mx-auto pb-2 flex gap-1 px-4">
       <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="overview" data-active="true">Overview</button>
+      <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="retrospective">Retrospective</button>
       <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="map">Map</button>
       <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="elevation">Elevation</button>
       <button class="tab-btn shrink-0 px-3 py-2 md:py-1.5 rounded-md text-sm font-medium hover:bg-stone-100 whitespace-nowrap" data-tab="splits">Splits / Z2</button>
@@ -191,12 +192,12 @@
 
     <div class="bg-white border border-stone-200 rounded-xl p-6">
       <div class="flex items-baseline justify-between mb-4 gap-3 flex-wrap">
-        <h2 class="text-lg font-bold">Pace plan v4 — two-baseline model + fatigue ramp</h2>
+        <h2 class="text-lg font-bold">Pace plan (recommended) — two-baseline model + fatigue ramp</h2>
         <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">hike + run @HR ≤145 · fatigue 1.18×</span>
       </div>
       <div id="overviewPaceTable"></div>
       <p class="mt-4 text-sm text-stone-600">
-        Two baselines power v4: <b>hike pace</b> on steep terrain (|grade| &gt; 8% — from recon AS3→AS4) and
+        Two baselines drive the rec. plan: <b>hike pace</b> on steep terrain (|grade| &gt; 8% — from recon AS3→AS4) and
         <b>run pace</b> on runnable terrain (≤8% — from your flat 30k in heat).
         Linear fatigue ramp 1.00× at km 0 → 1.18× at km 60.
         Cushions: AS3 cutoff <b>+1h 52m</b>, AS4 cutoff <b>+1h 12m</b>, Finish <b>+2h 03m</b>.
@@ -226,7 +227,7 @@
         <ul class="text-sm space-y-1.5 text-amber-900 list-disc list-inside">
           <li><b>Run the runnable bits.</b> AS1→AS2 at 10:30/km — that's your flat-30k Z2 pace with race-day buffer. Don't hike sections you'd run training.</li>
           <li><b>Power-hike the steep bits.</b> AS3→AS4 at 27:00/km is recon-validated; chasing VP here = quad blowout by AS5.</li>
-          <li>AS4 cutoff 15:00 — v4 arrives at 13:48 with <b>1h 12m cushion</b>. Comfortable but earn it on AS1→AS3.</li>
+          <li>AS4 cutoff 15:00 — rec. plan arrives at 14:40 with <b>20 min cushion</b>. Tight. HR discipline pre-AS3 is the entire game.</li>
           <li>Heat hits 12:00–15:00 = exactly your AS3→AS4 leg. Drench buff, drink Pocari at every AS.</li>
           <li>Caffeine starts at AS3 (Coca Cola). Sari Roti every 30 min throughout.</li>
         </ul>
@@ -269,7 +270,7 @@
   <!-- SPLITS / Z2 -->
   <section data-panel="splits" class="space-y-6 hidden">
     <div class="bg-white border border-stone-200 rounded-xl p-6">
-      <h2 class="font-bold mb-1">Per-km splits — Z2 model vs v4 plan vs cutoff</h2>
+      <h2 class="font-bold mb-1">Per-km splits — Z2 model vs Rec. plan vs cutoff</h2>
       <p class="text-xs text-stone-500 mb-4">
         Two baselines feed the model (see <code class="bg-stone-100 px-1 rounded">analyze_recon.py</code>):
         the <b>hike-recon</b> for steep terrain (|grade| &gt; 8%) and the <b>flat 30k run</b> for runnable terrain.
@@ -518,7 +519,7 @@
   <section data-panel="watch" class="space-y-6 hidden">
 
     <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
-      <h2 class="font-bold text-emerald-900 mb-2">How the v4-encoded GPX works on race day</h2>
+      <h2 class="font-bold text-emerald-900 mb-2">How the rec.-plan GPX works on race day</h2>
       <p class="text-sm text-emerald-900 mb-3">
         The watch will buzz at every aid + fueling waypoint with the target time, leg pace, and the
         one-line action. Race off the buzzes — don't math splits in your head.
@@ -599,6 +600,118 @@
       <h2 class="font-bold text-rose-900 mb-3">Warning signs — stop and fix</h2>
       <ul id="warningsList" class="space-y-2 text-sm text-rose-900"></ul>
     </div>
+  </section>
+
+  <!-- RETROSPECTIVE -->
+  <section data-panel="retrospective" class="space-y-6 hidden">
+
+    <!-- Header / DNF banner -->
+    <div class="bg-rose-50 border border-rose-200 rounded-xl p-6">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+        <h2 class="font-bold text-rose-900 text-lg" id="retroStatus"></h2>
+        <span class="text-xs text-rose-700" id="retroDate"></span>
+      </div>
+      <p class="text-sm text-rose-900 leading-relaxed" id="retroHeadline"></p>
+    </div>
+
+    <!-- Top stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="retroStats"></div>
+
+    <!-- Aid station arrivals -->
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h3 class="font-bold mb-1">Aid station arrivals vs plan</h3>
+      <p class="text-xs text-stone-500 mb-3">Cutoff status as recorded. AS4 arrival uses the remembered chip time (the GPS waypoint sits ~100 m before the official mat).</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="text-xs text-stone-500 uppercase border-b border-stone-200">
+            <tr>
+              <th class="py-2 px-2 text-left">AS</th>
+              <th class="py-2 px-2 text-right">km</th>
+              <th class="py-2 px-2 text-right">Plan</th>
+              <th class="py-2 px-2 text-right">Actual</th>
+              <th class="py-2 px-2 text-right">Δ</th>
+              <th class="py-2 px-2 text-right">Cutoff</th>
+              <th class="py-2 px-2 text-right">Status</th>
+            </tr>
+          </thead>
+          <tbody id="retroAidTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Per-leg breakdown -->
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h3 class="font-bold mb-1">Per-leg pace vs plan</h3>
+      <p class="text-xs text-stone-500 mb-3">The gap between plan and actual pace shows where the race was decided.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="text-xs text-stone-500 uppercase border-b border-stone-200">
+            <tr>
+              <th class="py-2 px-2 text-left">Leg</th>
+              <th class="py-2 px-2 text-right">Plan pace</th>
+              <th class="py-2 px-2 text-right">Actual</th>
+              <th class="py-2 px-2 text-right">Δ pace</th>
+              <th class="py-2 px-2 text-right">Plan time</th>
+              <th class="py-2 px-2 text-right">Actual</th>
+              <th class="py-2 px-2 text-right">Δ time</th>
+            </tr>
+          </thead>
+          <tbody id="retroLegsTbody"></tbody>
+        </table>
+        <div id="retroLegsNotes" class="text-xs text-stone-600 mt-3 space-y-1"></div>
+      </div>
+    </div>
+
+    <!-- HR + pace chart -->
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h3 class="font-bold mb-1">Heart rate by kilometer — where the race was lost</h3>
+      <p class="text-xs text-stone-500 mb-3">Plan: HR ≤145 for the first 30 km. Red zone = above LT1, glycogen-burning territory. Sustained Z3/Z4 from km 7 onwards is the root cause of the AS3→AS4 collapse.</p>
+      <div class="relative h-72">
+        <canvas id="retroHrChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Two-column: went well / went wrong -->
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+        <h3 class="font-bold text-emerald-900 mb-3">What went well</h3>
+        <ul id="retroWentWell" class="space-y-3 text-sm text-emerald-900"></ul>
+      </div>
+      <div class="bg-rose-50 border border-rose-200 rounded-xl p-6">
+        <h3 class="font-bold text-rose-900 mb-3">What went wrong</h3>
+        <ul id="retroWentWrong" class="space-y-3 text-sm text-rose-900"></ul>
+      </div>
+    </div>
+
+    <!-- Km 29 collapse spotlight -->
+    <div class="bg-stone-900 text-stone-100 rounded-xl p-6">
+      <h3 class="font-bold mb-2 text-amber-300">Spotlight: km 29 — the single km that ended the race</h3>
+      <ul id="retroKm29Stats" class="space-y-1.5 text-sm font-mono text-stone-200"></ul>
+      <p id="retroKm29Reading" class="text-sm text-stone-300 mt-3 leading-relaxed"></p>
+    </div>
+
+    <!-- The cutoff math -->
+    <div class="bg-white border border-stone-200 rounded-xl p-6">
+      <h3 class="font-bold mb-3">The cutoff math — how the cushion got eaten</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <tbody id="retroCutoffTbody" class="divide-y divide-stone-200"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- What's baked into the rec. plan -->
+    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6">
+      <h3 class="font-bold text-emerald-900 mb-3">What's baked into the rec. plan</h3>
+      <p class="text-xs text-emerald-800 mb-3">Each lesson became a concrete change to the recommended plan. The plan now codifies the discipline that was missing.</p>
+      <ul id="retroBakedIn" class="space-y-3 text-sm text-emerald-900"></ul>
+    </div>
+
+    <!-- Closing -->
+    <div class="bg-white border border-stone-200 rounded-xl p-6 text-center">
+      <p class="text-sm text-stone-700 italic leading-relaxed max-w-2xl mx-auto" id="retroClosing"></p>
+    </div>
+
   </section>
 
 </main>
