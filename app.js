@@ -7,7 +7,31 @@ const RACE_START_HOUR = 4.0;
 // Register on load so we never block first paint.
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js").catch(() => {});
+    navigator.serviceWorker.register("/service-worker.js").then((reg) => {
+      // Check for updates aggressively — race-day-critical info shouldn't be stale.
+      reg.update().catch(() => {});
+      // When a new SW finishes installing while we're still on the page, tell it
+      // to skip waiting so it activates immediately. The controllerchange listener
+      // below then reloads the page to pick up the new assets.
+      reg.addEventListener("updatefound", () => {
+        const sw = reg.installing;
+        if (!sw) return;
+        sw.addEventListener("statechange", () => {
+          if (sw.state === "installed" && navigator.serviceWorker.controller) {
+            sw.postMessage("skipWaiting");
+          }
+        });
+      });
+    }).catch(() => {});
+
+    // When the new SW takes control (via skipWaiting + clients.claim), reload
+    // once so the page swaps to the freshly-cached assets.
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (reloaded) return;
+      reloaded = true;
+      window.location.reload();
+    });
   });
 }
 
