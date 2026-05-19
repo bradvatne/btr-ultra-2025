@@ -831,7 +831,7 @@ $("#warningsList").innerHTML = D.warning_signs.map(w => `<li class="flex gap-2">
 
   // Km 29 spotlight
   $("#retroKm29Stats").innerHTML = R.km29_collapse.stat_lines.map(line => `<li>· ${line}</li>`).join("");
-  $("#retroKm29Reading").textContent = R.km29_collapse.reading;
+  $("#retroKm29Reading").innerHTML = R.km29_collapse.reading;
 
   // Cutoff math
   $("#retroCutoffTbody").innerHTML = R.cutoff_math.map(c => `
