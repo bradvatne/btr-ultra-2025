@@ -409,7 +409,7 @@ window.DATA = {
     went_wrong: [
       { title: "HR cap violated for ~3 hours", body: "Plan was ≤145 for the first 30 km. Actual: km 7-8 at 166, km 18-22 sustained 162-165. That's Z3/Z4 — burning glycogen at a rate the engine can't sustain. Root cause of everything that followed." },
       { title: "AS3→AS4 catastrophe",     body: "Planned 27:00/km (built off the AS3→AS4 recon). Actual 39:37/km — 47% slower than plan. Ate the entire AS3 cushion plus 38 minutes." },
-      { title: "Km 29 — the collapse",    body: "A single kilometer took 1h40m. HR dropped to 142 (too low for hiking effort) — suggesting frequent stops or sitting. That single km cost ~70 minutes vs planned 27 min for that km. It IS the gap between cutoff and DNF." },
+      { title: "Km 29 — the bottleneck",   body: "A single kilometer took 1h40m. Three things stacked: the steep technical descent off Abang (volcanic scree, slippery, the worst terrain on the course) + a single-file conga line of runners moving at the slowest person's pace + accumulated fatigue. HR 142 reflects the queue more than the engine. ~73 min lost on this one km = the entire gap to cutoff. See the Km 29 spotlight below for the full read." },
       { title: "AS3 stop too short",      body: "Plan was 12-min stop. Looking at the data, transition out of AS3 was rushed (km 27→28 in 14:35 / 39:50). Undercooked — should have been a sit-down meal + Coke + mental reset." },
       { title: "Recon was misleading",    body: "The AS3→AS4 recon was done fresh at km 0 of that outing. Same terrain at race-km-27 with cumulative heat is fundamentally slower. Plan should have had a bigger fatigue buffer (33:00/km, not 27:00)." },
     ],
@@ -420,7 +420,7 @@ window.DATA = {
         "Plan for this km: ~27 min · actual: 100 min",
         "Cost: ~73 min vs plan — exactly the gap to cutoff",
       ],
-      reading: "HR ~142 during a 100-minute km means you were not hiking continuously. You were sitting, stopping, or moving very slowly through technical scree. The route off Gunung Abang here is steep volcanic descent — high quad damage potential. The body said no.",
+      reading: "Not a pure bonk — three things stacked. (1) <b>Terrain</b>: this is the steep technical descent off Gunung Abang summit (~1620m down toward Lake Batur), volcanic scree, slippery footing, the most treacherous km of the entire course. Check the elevation profile — the grade here is unrun-able regardless of fitness. (2) <b>Traffic</b>: a single-file conga line of runners bottlenecked on the same descent, no safe passing on the scree. Moving the pace of the slowest person in the chain. (3) <b>Exhaustion</b>: pre-AS3 HR damage was real, and yes you could have pushed harder through the bottleneck, but the marginal speed gain wouldn't have been large given the structural constraints. HR 142 (low for hiking) reflects the queue more than the legs. <b>Conclusion</b>: this leg always had a hidden bottleneck the rec. plan didn't account for. Need a bigger AS3 cushion to absorb traffic + technical terrain on top of fatigue.",
     },
 
     cutoff_math: [
@@ -434,7 +434,7 @@ window.DATA = {
     baked_into_rec_plan: [
       { rule: "Hard HR alert at 145",       why: "FR970 high-HR alarm at 145. Walk every time it beeps. No exceptions for the first 30 km. Without this, the engine cooks and AS3→AS4 collapses the same way." },
       { rule: "AS3 stop expanded 12→18 min", why: "The 6 saved minutes from rushing AS3 cost 30+ minutes on the descent. Sit, eat, Coke, reset." },
-      { rule: "AS3→AS4 budget 27→33 min/km", why: "Honest race-day pace. With HR discipline holding, 33:00 is achievable. Without HR discipline, the leg blows up regardless of plan." },
+      { rule: "AS3→AS4 budget 27→33 min/km", why: "Honest race-day pace. With HR discipline holding, 33:00 is achievable — but bear in mind this leg has a hidden traffic bottleneck on the technical Abang descent (single-file scree, no passing). The 33:00 budget absorbs typical race-day chaos; if you hit unusual traffic, lean on the AS3 cushion." },
       { rule: "Post-AS4 +1 min/km buffers",  why: "Quads will be wrecked after the brutal descent. Realistic post-AS4 paces preserve the chance of finishing." },
       { rule: "New finish target 22:21",     why: "Prior target was 20:57 but built on an optimistic AS3→AS4. New target reflects honest race-day execution with +39m finish cushion." },
     ],
